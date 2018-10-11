@@ -1,3 +1,6 @@
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+
 *~
 *.sw[mnpcod]
 *.log
@@ -7,51 +10,62 @@
 log.txt
 *.sublime-project
 *.sublime-workspace
+npm-debug.log*
 
-.idea/
-.vscode/
-.sass-cache/
-.versions/
-coverage/
-collection/
-dist/
-node_modules/
-tmp/
-temp/
-core/theme-builder/
-core/test-components/
-core/css/
-angular/css/
-$RECYCLE.BIN/
+pagosEnLineaApp/.idea/
+pagosEnLineaApp/.vscode/
+pagosEnLineaApp/.ionic/
+pagosEnLineaApp/.sourcemaps/
+pagosEnLineaApp/.sass-cache/
+pagosEnLineaApp/.versions/
+pagosEnLineaApp/coverage/
+pagosEnLineaApp/collection/
+pagosEnLineaApp/dist/
+pagosEnLineaApp/node_modules/
+pagosEnLineaApp/tmp/
+pagosEnLineaApp/.tmp/
+pagosEnLineaApp/temp/
+pagosEnLineaApp/core/theme-builder/
+pagosEnLineaApp/core/test-components/
+pagosEnLineaApp/core/css/
+pagosEnLineaApp/angular/css/
+pagosEnLineaApp/platforms/
+pagosEnLineaApp/plugins/
+pagosEnLineaApp/plugins/android.json
+pagosEnLineaApp/plugins/ios.json
+pagosEnLineaApp/www/
+pagosEnLineaApp/$RECYCLE.BIN/
 
-.DS_Store
-Thumbs.db
-UserInterfaceState.xcuserstate
-.env
+pagosEnLineaApp/.DS_Store
+pagosEnLineaApp/Thumbs.db
+pagosEnLineaApp/UserInterfaceState.xcuserstate
+pagosEnLineaApp/.env
 
-.package.tmp.json
+pagosEnLineaApp/.package.tmp.json
 
-src/themes/version.scss
-scripts/e2e/webpackEntryPoints.json
-scripts/build/e2e-generated-tsconfig.json
-*.css.ts
+pagosEnLineaApp/src/themes/version.scss
+pagosEnLineaApp/scripts/e2e/webpackEntryPoints.json
+pagosEnLineaApp/scripts/build/e2e-generated-tsconfig.json
+pagosEnLineaApp/*.css.ts
 
-stats.json
+pagosEnLineaApp/stats.json
 
 # demo stuff
-demos/node_modules
-demos/polyfills
-demos/css
-demos/fonts
-demos/src/**/*.js
-demos/src/**/*.map
-demos/src/**/*.ngfactory.ts
-demos/src/**/*.d.ts
-demos/src/**/*.metadata.json
-demos/src/**/*.css.shim.ts
+pagosEnLineaApp/demos/node_modules
+pagosEnLineaApp/demos/polyfills
+pagosEnLineaApp/demos/css
+pagosEnLineaApp/demos/fonts
+pagosEnLineaApp/demos/src/**/*.js
+pagosEnLineaApp/demos/src/**/*.map
+pagosEnLineaApp/demos/src/**/*.ngfactory.ts
+pagosEnLineaApp/demos/src/**/*.d.ts
+pagosEnLineaApp/demos/src/**/*.metadata.json
+pagosEnLineaApp/demos/src/**/*.css.shim.ts
+
+
 
 # stencil
-angular/css/
-core/css/
-core/loader/
-.stencil/
+pagosEnLineaApp/angular/css/
+pagosEnLineaApp/core/css/
+pagosEnLineaApp/core/loader/
+pagosEnLineaApp/.stencil/
