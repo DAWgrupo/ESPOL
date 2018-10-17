@@ -34,10 +34,12 @@ Instalación de PostgreSQL
 
 
 ## Ejecución
-Ejecución del APP
-> ionic serve
-
 Ejecución del API
 > python manage.py migrate
 
 > python manage.py runserver
+
+Ejecución del APP
+> ionic serve
+
+
