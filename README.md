@@ -17,15 +17,29 @@ Ceación de nuevo proyecto
 
 Agregar plataformas
 > ionic cordova platform add android
+
 > ionic cordova platform add ios
 
 ## Dependencias del back-end
+Instalación de Python 3.7
+> https://www.python.org/downloads/
+
+Instalación de Django Rest Framwork
+> pip install django
+
+> pip install djangorestframework
+
 Instalación de PostgreSQL
 > https://www.postgresql.org/download/
 
 
 ## Ejecución
-Ubicandonos en la carpeta contenedora del proyecto
-```
-ionic serve
-```
+Ejecución del API
+> python manage.py migrate
+
+> python manage.py runserver
+
+Ejecución del APP
+> ionic serve
+
+
