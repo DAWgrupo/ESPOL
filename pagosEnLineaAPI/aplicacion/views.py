@@ -7,8 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import generics
-from aplicacion.models import producto, carrito
-from aplicacion.serializers import ProductoSerializer, CarritoSerializer
+from aplicacion.models import producto, carrito, venta, usuario, tarjeta
+from aplicacion.serializers import ProductoSerializer, CarritoSerializer, VentaSerializer, UsuarioSerializer, TarjetaSerializer
 
 """
 class JSONResponse(HttpResponse):
@@ -51,3 +51,27 @@ class CarritoList(generics.ListCreateAPIView):
 class CarritoDetail(generics.RetrieveUpdateAPIView):
     queryset = carrito.objects.all()
     serializer_class = CarritoSerializer
+
+class VentaList(generics.ListCreateAPIView):
+    queryset = venta.objects.all()
+    serializer_class = VentaSerializer
+
+class VentaDetail(generics.RetrieveUpdateAPIView):
+    queryset = venta.objects.all()
+    serializer_class = VentaSerializer
+
+class UsuarioList(generics.ListCreateAPIView):
+    queryset = usuario.objects.all()
+    serializer_class = UsuarioSerializer
+
+class UsuarioDetail(generics.RetrieveUpdateAPIView):
+    queryset = usuario.objects.all()
+    serializer_class = UsuarioSerializer
+
+class TarjetaList(generics.ListCreateAPIView):
+    queryset = tarjeta.objects.all()
+    serializer_class = TarjetaSerializer
+
+class TarjetaDetail(generics.RetrieveUpdateAPIView):
+    queryset = tarjeta.objects.all()
+    serializer_class = TarjetaSerializer
