@@ -3,7 +3,8 @@
       <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-      <ion-title>Seleccion de metodo de pago</ion-title>
+      <ion-title>Cartera de Tarjetas
+      </ion-title>
     </ion-navbar>
   </ion-header>
   
@@ -12,24 +13,29 @@
       <ion-row>
       <ion-col col-12>
           <ion-list>
-      
-              <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-                <ion-icon [name]="item.icon" item-start></ion-icon>
-                {{item.title}}
-                <div class="item-note" item-end>
-                  {{item.note}}
-                </div>
-              </button>
+              <ion-item *ngFor="let card of cards" (click)="itemTapped($event, card)">
+                  <ion-radio value="go" item-start></ion-radio>
+                  
+                   <ion-label>
+                    <ion-img width="40" src="../../assets/imgs/{{card.type}}.png"></ion-img>
+                    {{card.number}}<br>
+                    {{card.holder_name}}<br>
+                    {{card.expiry_month}}/{{card.expiry_year}}
+                </ion-label>
+                <ion-icon ios="ios-create-outline" md="md-create" item-end></ion-icon>
+                  <ion-icon  ios="ios-trash-outline" md="md-trash" item-end></ion-icon>
+
+              </ion-item>
+            
         
-              <label ion-item *ngIf="items.length === 0" >
+              <label ion-item *ngIf="cards.length === 0" >
                   <ion-avatar item-start>
                       <img src="../../assets/imgs/card.png">
                     </ion-avatar>
                     <h2></h2>
                     <p>No existen tarjetas seleccionadas</p>
               </label> 
-            </ion-list>
-            
+            </ion-list> 
       </ion-col>
       <ion-col class="flexcontainer">
         <button center ion-fab mini color="light"><ion-icon name="add"></ion-icon></button>

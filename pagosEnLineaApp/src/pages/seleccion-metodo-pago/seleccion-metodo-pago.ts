@@ -15,7 +15,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SeleccionMetodoPagoPage {
   selectedItem: any;
-  icons: string[];
+  cards: any[];
   items: Array<{title: string, note: string, icon: string}>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -23,8 +23,10 @@ export class SeleccionMetodoPagoPage {
     this.selectedItem = navParams.get('item');
 
     // Let's populate this page with some filler content for funzies
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
+    this.cards = [
+      {"number" : "xxxx xxxx xxxx 7991", "holder_name" : "Juniver Jair Roman Macias", "expiry_year" : "2021", "expiry_month": "9", "type": "mc"}, 
+      {"number" : "xxxx xxxx xxxx 0011", "holder_name" : "Juniver Jair Roman Macias", "expiry_year" : "2025" ,  "expiry_month": "8", "type": "vi"}
+    ];
 
     this.items = [];
   }
