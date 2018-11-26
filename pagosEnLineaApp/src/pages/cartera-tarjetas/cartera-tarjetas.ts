@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, CardTitle } from 'ionic-angular';
-import { CheckoutPage } from '../checkout/checkout';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the SeleccionMetodoPagoPage page.
+ * Generated class for the CarteraTarjetasPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -11,11 +10,12 @@ import { CheckoutPage } from '../checkout/checkout';
 
 @IonicPage()
 @Component({
-  selector: 'page-seleccion-metodo-pago',
-  templateUrl: 'seleccion-metodo-pago.html',
+  selector: 'page-cartera-tarjetas',
+  templateUrl: 'cartera-tarjetas.html',
 })
-export class SeleccionMetodoPagoPage {
-  selectedItems: any;
+export class CarteraTarjetasPage {
+
+  selectedItem: any;
   cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, type: String, number: String}> = [];
   response: any = 
   {
@@ -59,7 +59,7 @@ export class SeleccionMetodoPagoPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItems = navParams.get('cards');
+    this.selectedItem = navParams.get('item');
 
     // Let's populate this page with some filler content for funzies
     this.getCards();
@@ -84,14 +84,14 @@ export class SeleccionMetodoPagoPage {
     }
   }
   itemTapped(event, item) {
-    this.selectedItems.push(item)
-    this.navCtrl.push(CheckoutPage, {
-      cards: this.selectedItems
+    // That's right, we're pushing to ourselves!
+    this.navCtrl.push(CarteraTarjetasPage, {
+      item: item
     });
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SeleccionMetodoPagoPage');
+    console.log('ionViewDidLoad CarteraTarjetasPage');
   }
 
 }
