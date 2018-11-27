@@ -5,6 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import {SeleccionMetodoPagoPage} from '../pages/seleccion-metodo-pago/seleccion-metodo-pago';
 import { CarritoPage } from '../pages/carrito/carrito';
+import { CheckoutPage } from '../pages/checkout/checkout';
+import {CarteraTarjetasPage} from '../pages/cartera-tarjetas/cartera-tarjetas';
 
 
 
@@ -24,7 +26,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'Tarjetas', component: SeleccionMetodoPagoPage },
+      { title: 'Checkout', component: CheckoutPage },
+      { title: 'Cartera de Tarjetas', component: CarteraTarjetasPage },
       { title: 'Carrito', component: CarritoPage },
 
     ];
