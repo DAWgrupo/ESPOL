@@ -7,6 +7,7 @@ import {SeleccionMetodoPagoPage} from '../pages/seleccion-metodo-pago/seleccion-
 import { CarritoPage } from '../pages/carrito/carrito';
 
 
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -24,7 +25,8 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'Tarjetas', component: SeleccionMetodoPagoPage },
-      { title: 'Carrito', component: CarritoPage }
+      { title: 'Carrito', component: CarritoPage },
+
     ];
 
   }
