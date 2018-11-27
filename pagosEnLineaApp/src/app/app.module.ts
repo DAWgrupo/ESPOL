@@ -20,7 +20,6 @@ import { HttpModule} from '@angular/http';
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     SeleccionMetodoPagoPage,
     CarritoPage,
     CheckoutPage,
@@ -37,11 +36,9 @@ import { HttpModule} from '@angular/http';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     SeleccionMetodoPagoPage,
     CarritoPage,
     CheckoutPage,
-    SeleccionMetodoPagoPage,
     CarteraTarjetasPage,
 
 
