@@ -28,9 +28,6 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'Checkout', component: CheckoutPage },
       { title: 'Cartera de Tarjetas', component: CarteraTarjetasPage },
-
-      { title: 'List', component: ListPage },
-      { title: 'tarjetas', component: SeleccionMetodoPagoPage },
       { title: 'Carrito', component: CarritoPage }
 
     ];
