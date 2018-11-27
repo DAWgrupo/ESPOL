@@ -6,6 +6,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import {SeleccionMetodoPagoPage} from '../pages/seleccion-metodo-pago/seleccion-metodo-pago';
+import { CarritoPage } from '../pages/carrito/carrito';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +26,8 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage },
-      { title: 'tarjetas', component: SeleccionMetodoPagoPage }
+      { title: 'tarjetas', component: SeleccionMetodoPagoPage },
+      { title: 'Carrito', component: CarritoPage }
     ];
 
   }
