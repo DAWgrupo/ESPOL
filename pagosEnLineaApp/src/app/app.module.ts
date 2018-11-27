@@ -3,10 +3,8 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import {SeleccionMetodoPagoPage} from '../pages/seleccion-metodo-pago/seleccion-metodo-pago';
 
-
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -18,7 +16,6 @@ import { HttpModule} from '@angular/http';
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     SeleccionMetodoPagoPage,
     CarritoPage
   ],
@@ -31,7 +28,6 @@ import { HttpModule} from '@angular/http';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     SeleccionMetodoPagoPage,
     CarritoPage,
 
