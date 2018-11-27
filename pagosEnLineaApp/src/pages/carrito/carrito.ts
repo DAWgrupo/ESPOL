@@ -22,12 +22,13 @@ export class CarritoPage {
   carritos: any;
   productos: any;
   
-  totalCarrito : ConstrainDouble = 0;
+  totalCarrito : number = 0;
   @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private carritoProvider: ApiServiceProvider) {
     this.getProductos();
     this.getCarritos();
+    
   }
 
   ionViewDidLoad() {
@@ -37,9 +38,17 @@ export class CarritoPage {
   }
 
   ionViewDidEnter() {
+    
     //this.carritos = [];
     //this.productos = [];
         
+  }
+
+  getTotal(){
+    for (let p of this.productos){
+      this.totalCarrito += Number(p.precio);
+    }
+    console.log(this.totalCarrito);
   }
 
 
@@ -47,7 +56,8 @@ export class CarritoPage {
     this.carritoProvider.getProductos()
     .then(data => {
       this.productos = data;
-      //console.log(this.productos);
+      console.log(this.productos);
+      this.getTotal();
     });
     
   }
