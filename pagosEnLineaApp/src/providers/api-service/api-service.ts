@@ -28,6 +28,14 @@ export class ApiServiceProvider {
     });
   }
 
+  deleteProducto(idProducto): any {
+    return this.http
+      .delete(`${this.API_URL}/api/producto/` + idProducto)
+      .toPromise()
+      .then(res => console.log(res.toString()))
+      .catch(err => console.log(err));
+  }
+
   getCarritos() {
     return new Promise(resolve => {
       this.http.get(this.API_URL+'/api/carrito/?format=json').subscribe(data => {

@@ -36,11 +36,10 @@ class JSONResponse(HttpResponse):
 """
 
 class ProductoList(generics.ListCreateAPIView):
- 
     queryset = producto.objects.all()
     serializer_class = ProductoSerializer
 
-class ProductoDetail(generics.RetrieveUpdateAPIView):
+class ProductoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = producto.objects.all()
     serializer_class = ProductoSerializer
 

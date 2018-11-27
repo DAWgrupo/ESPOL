@@ -12,16 +12,32 @@
 
   <ion-item *ngFor="let c of productos">
     <div class="row">
-      <div class="col-2">
+
+      <div class="col">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" id="customCheck1">
         </div>
       </div>
-      <div class="col">
-        <h2>Nombre: {{ c.nombre }} </h2>
-        <h2>Cantidad: {{ c.detalle }} </h2>
-        <h2>Precio: ${{ c.precio }} </h2>
+
+      <div class="col-6">
+        <h2>Nombre: </h2>
+        <h2>Detalle: </h2>
+        <h2>Cantidad: </h2>
+        <h2>Precio: </h2>
       </div>
+      
+      <div class="col">
+        <h2> {{ c.nombre }} </h2>
+        <h2>{{ c.descripcion }} </h2>
+        <h2> <input type="number"  value = "1" id="tentacles" name="tentacles" min="1" max="10"></h2>
+        <h2>${{ c.precio }} </h2>
+      </div>
+
+      <div class="col-2">
+        <button type="button" [attr.data-target]="c.idP" class="btn btn-danger" (click)="eliminarProducto($event, c.idP);" data-toggle="tooltip" data-placement="top" title="Borrar">Eliminar</button>
+      </div>
+
+
     </div>
     
   </ion-item>
@@ -75,7 +91,7 @@
   <ion-card id="carrito-card22">
     <ion-list>
       <h1 id="carrito-heading2" style="color:#000000;">
-        Total:
+        Total: {{ totalCarrito }}
       </h1>
       <button id="carrito-button6" ion-button color="positive" block>
         Continuar
