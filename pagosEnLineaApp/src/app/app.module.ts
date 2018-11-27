@@ -23,7 +23,6 @@ import { HttpModule} from '@angular/http';
     SeleccionMetodoPagoPage,
     CarritoPage,
     CheckoutPage,
-    SeleccionMetodoPagoPage,
     CarteraTarjetasPage,
 
   ],
