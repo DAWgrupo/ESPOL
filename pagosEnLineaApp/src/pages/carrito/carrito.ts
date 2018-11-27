@@ -50,6 +50,12 @@ export class CarritoPage {
     });
   }
 
+  async eliminarProducto(productoId) {
+    await this.carritoProvider.deleteProducto(productoId);
+    this.getProductos;
+  }
+  
+
   getCarritos() {
     this.carritoProvider.getCarritos()
     .then(data => {

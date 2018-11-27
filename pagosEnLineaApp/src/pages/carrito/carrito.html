@@ -12,16 +12,24 @@
 
   <ion-item *ngFor="let c of productos">
     <div class="row">
+
       <div class="col-2">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" id="customCheck1">
         </div>
       </div>
+
       <div class="col">
         <h2>Nombre: {{ c.nombre }} </h2>
         <h2>Cantidad: {{ c.detalle }} </h2>
         <h2>Precio: ${{ c.precio }} </h2>
       </div>
+
+      <div class="col-2">
+        <button type="button" [attr.data-target]="c.idP" class="btn btn-danger" (click)="eliminarProducto(idP)" data-toggle="tooltip" data-placement="top" title="Borrar">Eliminar</button>
+      </div>
+
+
     </div>
     
   </ion-item>
