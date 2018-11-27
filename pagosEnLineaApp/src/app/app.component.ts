@@ -4,8 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { CheckoutPage } from '../pages/checkout/checkout';
 import {SeleccionMetodoPagoPage} from '../pages/seleccion-metodo-pago/seleccion-metodo-pago';
+import {CarteraTarjetasPage} from '../pages/cartera-tarjetas/cartera-tarjetas';
 import { CarritoPage } from '../pages/carrito/carrito';
 
 
@@ -25,9 +26,13 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
+      { title: 'Checkout', component: CheckoutPage },
+      { title: 'Cartera de Tarjetas', component: CarteraTarjetasPage },
+
       { title: 'List', component: ListPage },
       { title: 'tarjetas', component: SeleccionMetodoPagoPage },
       { title: 'Carrito', component: CarritoPage }
+
     ];
 
   }

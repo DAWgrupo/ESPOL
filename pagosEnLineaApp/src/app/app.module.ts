@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+
 import {SeleccionMetodoPagoPage} from '../pages/seleccion-metodo-pago/seleccion-metodo-pago';
+import {CarteraTarjetasPage} from '../pages/cartera-tarjetas/cartera-tarjetas';
 
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { CheckoutPage } from '../pages/checkout/checkout';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,7 +22,11 @@ import { HttpModule} from '@angular/http';
     HomePage,
     ListPage,
     SeleccionMetodoPagoPage,
-    CarritoPage
+    CarritoPage,
+    CheckoutPage,
+    SeleccionMetodoPagoPage,
+    CarteraTarjetasPage,
+
   ],
   imports: [
     BrowserModule,
@@ -34,6 +40,10 @@ import { HttpModule} from '@angular/http';
     ListPage,
     SeleccionMetodoPagoPage,
     CarritoPage,
+    CheckoutPage,
+    SeleccionMetodoPagoPage,
+    CarteraTarjetasPage,
+
 
   ],
   providers: [
