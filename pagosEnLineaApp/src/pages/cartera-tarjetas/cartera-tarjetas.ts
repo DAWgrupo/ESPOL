@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Thumbnail } from 'ionic-angular';
+import { ApiServiceProvider } from '../../providers/api-service/api-service';
 
 /**
  * Generated class for the CarteraTarjetasPage page.
@@ -57,31 +58,45 @@ export class CarteraTarjetasPage {
     "result_size": 3
 };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private api: ApiServiceProvider) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 
     // Let's populate this page with some filler content for funzies
-    this.getCards();
+    this.getCards('1');
     
 
   
   }
-  getCards(){
-    for (let card of this.response.cards) {
-      let expiry_month : String;
-      if (Number(card.expiry_month) < 10 ){
-        expiry_month = "0" + card.expiry_month;
+
+
+
+  getCards(userId){
+    this.api.getAllCards(userId).then(data => {
+      let response: any;
+      response = data;
+      console.log(response)
+      for (let card of response.cards) {
+        let expiry_month : String;
+        if (Number(card.expiry_month) < 10 ){
+          expiry_month = "0" + card.expiry_month;
+        }else{
+          expiry_month = card.expiry_month;
+        }
+        let tmp_card = {
+          "number" : card.bin.slice( 1, 4) + " XXXX XXXX " + card.number,
+          "holder_name" : card.holder_name,
+          "expiry_year" : card.expiry_year.slice(2,5).toString(),
+          "expiry_month": expiry_month,
+          "type": card.type.toString()
+        };
+        console.log(card.type)
+        this.cards.push(tmp_card)
       }
-      let tmp_card = {
-        "number" : card.bin.slice( 1, 5) + " XXXX XXXX " + card.number,
-        "holder_name" : card.holder_name,
-        "expiry_year" : card.expiry_year.slice(2,5).toString(),
-        "expiry_month": expiry_month,
-        "type": card.type
-      };
-      this.cards.push(tmp_card)
-    }
+      
+      console.log(data);
+    });
+    
   }
   itemTapped(event, item) {
     // That's right, we're pushing to ourselves!
@@ -93,5 +108,6 @@ export class CarteraTarjetasPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad CarteraTarjetasPage');
   }
+
 
 }

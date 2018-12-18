@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
@@ -67,6 +68,10 @@ class UsuarioList(generics.ListCreateAPIView):
 class UsuarioDetail(generics.RetrieveUpdateAPIView):
     queryset = usuario.objects.all()
     serializer_class = UsuarioSerializer
+
+def getAllCards(request, idU):
+    print(usuario.objects.filter(idU=idU)[0].get_all_cards() )
+    return  JsonResponse(usuario.objects.filter(idU=idU)[0].get_all_cards() ) 
 
 class TarjetaList(generics.ListCreateAPIView):
     queryset = tarjeta.objects.all()
