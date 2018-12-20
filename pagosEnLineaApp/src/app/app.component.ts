@@ -2,11 +2,13 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { HomePage } from '../pages/home/home';
-import { CheckoutPage } from '../pages/checkout/checkout';
 import {SeleccionMetodoPagoPage} from '../pages/seleccion-metodo-pago/seleccion-metodo-pago';
+import { CarritoPage } from '../pages/carrito/carrito';
+import { CheckoutPage } from '../pages/checkout/checkout';
 import {CarteraTarjetasPage} from '../pages/cartera-tarjetas/cartera-tarjetas';
+
+
 
 @Component({
   templateUrl: 'app.html'
@@ -25,7 +27,9 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'Checkout', component: CheckoutPage },
-      { title: 'Cartera de Tarjetas', component: CarteraTarjetasPage }
+      { title: 'Cartera de Tarjetas', component: CarteraTarjetasPage },
+      { title: 'Carrito', component: CarritoPage },
+
     ];
 
   }
