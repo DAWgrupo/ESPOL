@@ -9,11 +9,15 @@
   </ion-header>
   
   <ion-content>
+      
     <ion-grid>
       <ion-row>
       <ion-col col-12>
           <ion-list>
+              <ion-item class="paymentez-form" id="my-card" data-capture-name="true" data-capture-email="true"></ion-item>
+               
               <ion-item *ngFor="let card of cards" (tap)="itemTapped($event, card)">
+                  
                   <ion-radio value="go" item-start></ion-radio>
                   
                    <ion-label>

@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Thumbnail } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ApiServiceProvider } from '../../providers/api-service/api-service';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+
+declare var PaymentezForm;
+declare var Paymentez;
+declare var jQuery;
 
 /**
  * Generated class for the CarteraTarjetasPage page.
@@ -15,7 +20,7 @@ import { ApiServiceProvider } from '../../providers/api-service/api-service';
   templateUrl: 'cartera-tarjetas.html',
 })
 export class CarteraTarjetasPage {
-
+  
   selectedItem: any;
   cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, type: String, number: String}> = [];
   response: any = 
@@ -58,20 +63,36 @@ export class CarteraTarjetasPage {
     "result_size": 3
 };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private api: ApiServiceProvider) {
+  constructor(private iab: InAppBrowser,public navCtrl: NavController, public navParams: NavParams, private api: ApiServiceProvider) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 
     // Let's populate this page with some filler content for funzies
-    this.getCards('1');
+    
     
 
   
   }
 
+  addCard(){
+    const browser = this.iab.create("http://127.0.0.1:8000/api/4/cards/add/?format=json");
 
+    //browser.executeScript("../../Pay/pay");
 
+    //browser.insertCSS(...);
+    browser.on('loadstop').subscribe(event => {
+      browser.insertCSS({ code: "body{color: red;" });
+    });
+
+    browser.close();
+  }
+  /**Obtiene todas las tarjetas del cliente y las guarda en this.cards
+   * userId es el uuid del cliente
+   */
   getCards(userId){
+    //console.log(document.getElementById('my-card'))
+    //PaymentezForm(document.getElementById('my-card'))
+    //Paymentez.init('local', 'INNOVA-EC-SERVER', 'Y5FnbpWYtULtj1Muvw3cl8LJ7FVQfM');
     this.api.getAllCards(userId).then(data => {
       let response: any;
       response = data;
@@ -107,6 +128,8 @@ export class CarteraTarjetasPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CarteraTarjetasPage');
+    this.addCard();
+    this.getCards('1');
   }
 
 

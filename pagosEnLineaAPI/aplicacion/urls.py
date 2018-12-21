@@ -17,6 +17,8 @@ urlpatterns = [
     url(r'^usuario/$', UsuarioList.as_view()),
     url(r'^usuario/(?P<pk>[0-9]+)/$', UsuarioDetail.as_view()),
     path('<int:idU>/cards/', views.getAllCards, name='getAllCards'),
+    path('<int:idU>/cards/add/', views.saveCard, name='saveCard'),
+
 
     url(r'^venta/$', VentaList.as_view()),
     url(r'^venta/(?P<pk>[0-9]+)/$', VentaDetail.as_view()),

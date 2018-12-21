@@ -12,6 +12,7 @@ import { CarritoPage } from '../pages/carrito/carrito';
 import { ApiServiceProvider } from '../providers/api-service/api-service';
 import { HttpModule} from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @NgModule({
   declarations: [
@@ -21,13 +22,14 @@ import { HttpClientModule } from '@angular/common/http';
     CarritoPage,
     CheckoutPage,
     CarteraTarjetasPage,
+    
 
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -46,7 +48,8 @@ import { HttpClientModule } from '@angular/common/http';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ApiServiceProvider
+    ApiServiceProvider,
+    InAppBrowser
   ]
 })
 export class AppModule {}

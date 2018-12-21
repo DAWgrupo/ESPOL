@@ -37,10 +37,11 @@ class JSONResponse(HttpResponse):
 """
 
 class ProductoList(generics.ListCreateAPIView):
+ 
     queryset = producto.objects.all()
     serializer_class = ProductoSerializer
 
-class ProductoDetail(generics.RetrieveUpdateDestroyAPIView):
+class ProductoDetail(generics.RetrieveUpdateAPIView):
     queryset = producto.objects.all()
     serializer_class = ProductoSerializer
 
@@ -70,7 +71,19 @@ class UsuarioDetail(generics.RetrieveUpdateAPIView):
 
 def getAllCards(request, idU):
     print(usuario.objects.filter(idU=idU)[0].get_all_cards() )
+    #return HttpResponse("<script>parent.Response_OK();</script>")
     return  JsonResponse(usuario.objects.filter(idU=idU)[0].get_all_cards() ) 
+
+def saveCard(request, idU):
+    #print(usuario.objects.filter(idU=idU)[0].saveCard() )
+    #return HttpResponse("<script>parent.Response_OK();</script>")
+    #return  JsonResponse(usuario.objects.filter(idU=idU)[0].saveCard() ) 
+    return render(
+        request,
+        'pay.html',
+        context={},
+    )
+
 
 class TarjetaList(generics.ListCreateAPIView):
     queryset = tarjeta.objects.all()

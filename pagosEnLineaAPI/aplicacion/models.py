@@ -51,6 +51,28 @@ class usuario(models.Model):
         response = requests.get('https://ccapi-stg.paymentez.com/v2/card/list?uid=' + str(self.idU), 
                      headers={'Auth-Token': self.get_token()})
         return response.json()
+    
+    def saveCard(self):
+        response = requests.post('https://ccapi-stg.paymentez.com/v2/card/add/api/cc/add/', 
+                     headers={'Auth-Token': self.get_token()}, data = {
+                         'user':
+                         {
+                             'id':str(self.idU),
+                             'email':str(self.correo),
+                         },
+                         'card': {
+                             'number': '5119159076977991',
+                             'holder_name': 'prueba1',
+                             'expiry_month': '9',
+                             'expiry_year': '2020',
+                             'cvc':'123',
+                             'type': 'vi'
+                         }
+                     })
+
+        return response.json()
+
+        
         
 
 class tarjeta(models.Model):
