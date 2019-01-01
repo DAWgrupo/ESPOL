@@ -13,15 +13,10 @@
     <ion-grid>
       <ion-row>
       <ion-col col-12>
-          <ion-list>
-              <ion-item class="paymentez-form" id="my-card" data-capture-name="true" data-capture-email="true"></ion-item>
-               
-              <ion-item *ngFor="let card of cards" (tap)="itemTapped($event, card)">
-                  
-                  <ion-radio value="go" item-start></ion-radio>
-                  
+          <ion-list>               
+              <ion-item *ngFor="let card of cards">                  
                    <ion-label>
-                    <ion-img width="40" src="../../assets/imgs/{{card.type}}.png"></ion-img>
+                    <ion-img width="40" [src]="card.icon"></ion-img>
                     {{card.number}}<br>
                     {{card.holder_name}}<br>
                     {{card.expiry_month}}/{{card.expiry_year}}
@@ -42,7 +37,7 @@
             </ion-list> 
       </ion-col>
       <ion-col class="flexcontainer">
-        <button center ion-fab mini color="light"><ion-icon name="add"></ion-icon></button>
+        <button center ion-fab mini color="light" (tap)="addCard()"><ion-icon name="add"></ion-icon></button>
       </ion-col>
     </ion-row>
     </ion-grid>

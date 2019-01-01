@@ -1,7 +1,10 @@
 
 import { Http } from '@angular/http';
+import { environment as ENV } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import {  LoadingController } from 'ionic-angular';
 
 /*
   Generated class for the ApiServiceProvider provider.
@@ -12,9 +15,9 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ApiServiceProvider {
 
-  private API_URL = 'http://127.0.0.1:8000'
+  private API_URL = ENV.BASE_URL //'10.0.2.2:8000' //'http://127.0.0.1:8000'
 
-  constructor(public http: Http) {
+  constructor(public http: Http,private iab: InAppBrowser, public loadingCtrl: LoadingController) {
     console.log('Hello ApiServiceProvider Provider');
   }
 
@@ -47,12 +50,49 @@ export class ApiServiceProvider {
   }
 
   getAllCards(idU) {
-    return new Promise(resolve => {
-      this.http.get(this.API_URL+'/api/'+idU+'/cards?format=json').subscribe(data => {
-        resolve(data.json());
-      }, err => {
-        console.log(err);
-      });
+
+    let loading = this.loadingCtrl.create({
+      content: 'Cargando tarjetas...'
+    });
+    loading.present();
+
+    let cards:  Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}> = [];
+    return new Promise( (resolve, reject) => {
+      this.http.get(this.API_URL + '/api/' + idU + '/cards?format=json').subscribe(data => {
+        let response;
+        response = data.json();
+        
+        for (let card of response.cards) {
+          let expiry_month : String;
+          if (Number(card.expiry_month) < 10 ){
+            expiry_month = "0" + card.expiry_month;
+          }else{
+            expiry_month = card.expiry_month;
+          }
+          let tmp_card = {
+            "number" : card.bin.slice( 1, 4) + " XXXX XXXX " + card.number,
+            "holder_name" : card.holder_name,
+            "expiry_year" : card.expiry_year.slice(2,5).toString(),
+            "expiry_month": expiry_month,
+            "icon": "../../assets/imgs/"+  card.type.toString()+".png"
+          };
+          console.log(card.type)
+          cards.push(tmp_card)
+        }
+        loading.dismiss();
+        resolve(cards);
+      },error => {
+        loading.dismiss();
+        reject(new Error("No se pudo contactar servidor"))
+      })
     });
   }
+
+  addCard(idU){
+    const browser = this.iab.create(ENV.BASE_URL + "/api/" +idU+"/cards/add/?format=json"); //10.0.2.2:8000 for simulator or 127.0.0.1:8000 for local 
+
+    
+  }
 }
+
+
