@@ -39,8 +39,9 @@ export class MyApp {
     this.platform.ready().then(() => {
       //mock de cookie para la info del usuario loggeado
       let userId = '1';
-
+      let email = 'jamin.r.m@gmmail.com';
       this.storage.set('userId', userId)
+      this.storage.set('email', email)
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();

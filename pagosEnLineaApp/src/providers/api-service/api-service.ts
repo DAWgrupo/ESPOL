@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import {  LoadingController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+
 
 /*
   Generated class for the ApiServiceProvider provider.
@@ -17,7 +19,7 @@ export class ApiServiceProvider {
 
   private API_URL = ENV.BASE_URL //'10.0.2.2:8000' //'http://127.0.0.1:8000'
 
-  constructor(public http: Http,private iab: InAppBrowser, public loadingCtrl: LoadingController) {
+  constructor(public http: Http,private iab: InAppBrowser, public loadingCtrl: LoadingController,public storage: Storage) {
     console.log('Hello ApiServiceProvider Provider');
   }
 
@@ -87,10 +89,44 @@ export class ApiServiceProvider {
       })
     });
   }
-
+  /**
+   * Crea una webview dentro de la app para usar el formulario paymentez de creacio de tarjeta de credito/debito
+   * @param idU uuid del usuario autenticado
+   */
   addCard(idU){
     const browser = this.iab.create(ENV.BASE_URL + "/api/" +idU+"/cards/add/?format=json"); //10.0.2.2:8000 for simulator or 127.0.0.1:8000 for local 
+    browser.on('loadstop').subscribe(event => {
+      
+      // Enviando al webview los datos del usuario loggeado
+      this.storage.get('email').then(email=>{
+        console.log(email)
+        browser.executeScript({ code: `localStorage.setItem( 'email', ${email} );` });
+      })
+      this.storage.get('userId').then(userId=>{
+        console.log(userId)
+        browser.executeScript({ code: `localStorage.setItem( 'userId', ${userId} );` });
+      })
+      
 
+
+
+      // Cerrar webview al submittear formulario paymentez
+      browser.executeScript({ code: "localStorage.setItem( 'submitted', '' );" });
+      var loop = setInterval(function() {
+          
+        browser.executeScript({ code: "localStorage.getItem( 'submitted' )" }).then((respuestas)=>{
+
+            var submitted = respuestas[ 0 ];
+            if ( submitted ) {
+                clearInterval( loop );
+                browser.close();
+                console.log(submitted)
+            }
+        
+        });
+      })
+  
+  });
     
   }
 }
