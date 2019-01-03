@@ -57,4 +57,24 @@ export class ApiServiceProvider {
     });
   }
 
+  getCodigo(codigo): any {
+    return new Promise(resolve => {
+      this.http.get(this.API_URL+'/api/codigo/' + codigo ).subscribe(data => {
+        resolve(data.json());
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
+  setCodigo(Codigo): any {
+   
+    return this.http
+        .put(`${this.API_URL}/api/codigo/` + Codigo.codigo + '/', Codigo)
+        .map(res => res.json())
+        .toPromise()
+        .then(res => console.log(res.toString()))
+        .catch(err => console.log(err));
+}
+
 }

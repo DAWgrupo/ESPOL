@@ -23,4 +23,7 @@ urlpatterns = [
     url(r'^tarjeta/$', TarjetaList.as_view()),
     url(r'^tarjeta/(?P<pk>[0-9]+)/$', TarjetaDetail.as_view()),
 
+    url(r'^codigo/$', CodigoList.as_view()),
+    url(r'^codigo/(?P<pk>[0-9]+)/$', CodigoDetail.as_view()),
+
 ]

@@ -17,6 +17,15 @@ class producto(models.Model):
     def __str__(self):
         return self.nombre
 
+class codigo(models.Model):
+    objects = models.Manager()
+    codigo = models.CharField(primary_key = True, max_length = 10)
+    descuento = models.DecimalField(max_digits = 6, decimal_places = 2)
+    estado = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.codigo
+    
 
 class usuario(models.Model):
     objects = models.Manager()

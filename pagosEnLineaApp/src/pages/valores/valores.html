@@ -104,8 +104,8 @@
       Cupón
     </ion-col>
     <ion-col>
-      <ion-input placeholder="Code"></ion-input>
-      <br><button ion-button>Aplicar</button>
+      <ion-input [(ngModel)]="code" name="code" id="code" placeholder="Code"></ion-input>
+      <br><button ion-button (click)="consultaCodigo($event, code);">Aplicar</button>
     </ion-col>
   </ion-row>
 
@@ -114,7 +114,7 @@
       Descuento
     </ion-col>
     <ion-col>
-      {{ 0 | currency  }}
+      {{ descuento | currency  }}
     </ion-col>
   </ion-row>
 </ion-grid>

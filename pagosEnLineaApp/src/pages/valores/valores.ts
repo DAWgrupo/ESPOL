@@ -18,7 +18,10 @@ import 'rxjs/add/operator/map';
 })
 export class ValoresPage {
   productos: any;
+  codigoA: any;
   totalCarrito : number = 0;
+  code: string;
+  descuento: number = 0 ;
 
   @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
 
@@ -33,6 +36,7 @@ export class ValoresPage {
     for (let p of this.productos){
       this.totalCarrito += Number(p.precio) * Number(p.cantidad);
     }
+    this.totalCarrito = this.totalCarrito - this.descuento;
     console.log(this.totalCarrito);
   }
 
@@ -43,6 +47,40 @@ export class ValoresPage {
       console.log(this.productos);
       this.getTotal();
     });
+  }
+
+  consultaCodigo(event, codigo){
+    this.carritoProvider.getCodigo(codigo)
+    .then(data => {
+      this.codigoA = data;
+      console.log(this.codigoA);
+      this.getDecuento();
+    });
+
+  }
+
+  getDecuento(){
+    if (this.codigoA.estado == false){
+      this.descuento = this.codigoA.descuento;
+      this.getTotal();
+      this.removeCodigo(this.codigoA); 
+    } else {
+      console.log("Cupon ya usado")
+    }
+       
+  }
+
+  async removeCodigo(cupon) {
+                
+    const codigoAdd = {
+        codigo: cupon.codigo,
+        descuento: cupon.descuento,
+        estado: true,
+    };
+  
+    await this.carritoProvider.setCodigo(codigoAdd);
+    
+
   }
 
   
