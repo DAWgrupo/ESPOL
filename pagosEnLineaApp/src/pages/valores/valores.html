@@ -8,12 +8,17 @@
   
 
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Detalles de Facturación</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
+
+<ion-title>Detalles de Compra</ion-title>
 
 <ion-item *ngFor="let c of productos" >
 <ion-grid>
@@ -25,9 +30,7 @@
       {{ c.nombre }}
     </ion-col>
   </ion-row>
-</ion-grid>
 
-<ion-grid>
   <ion-row>
     <ion-col>
       Descripción
@@ -36,9 +39,7 @@
       {{ c.descripcion }}
     </ion-col>
   </ion-row>
-</ion-grid>
 
-<ion-grid>
   <ion-row>
     <ion-col>
       Cantidad
@@ -47,9 +48,7 @@
       {{ c.cantidad }}
     </ion-col>
   </ion-row>
-</ion-grid>
 
-<ion-grid>
   <ion-row>
     <ion-col>
       Precio
@@ -59,8 +58,10 @@
     </ion-col>
   </ion-row>
 </ion-grid>
-
 </ion-item>
+<br>
+<ion-title>Detalles de Pago</ion-title>
+<br>
 
 <ion-grid>
   <ion-row>
@@ -89,6 +90,8 @@
       {{ 0 | currency  }}
     </ion-col>
   </ion-row>
+
+ 
 
   <ion-row>
     <ion-col>

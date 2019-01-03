@@ -11,23 +11,64 @@
 <ion-content>
 
 <ion-item *ngFor="let c of productos" >
+
+  <ion-grid>
+  <ion-row>
+    <ion-col col-10>
     <ion-row>
-      <ion-col col-auto>
-          <p>Producto: {{ c.nombre }} </p>
-          <p>Descripción: {{ c.descripcion }} </p>
-          <p>Cantidad:  {{ c.cantidad }} </p>
-          <ion-item>
-            <ion-icon item-end (click)="removeCantidad($event, c);" [attr.data-target]="c" name="remove"></ion-icon>
-            <ion-icon item-end (click)="addCantidad($event, c);" [attr.data-target]="c" name="add"></ion-icon>
-          </ion-item>
-          <p>Precio: ${{ c.precio }} </p>
+      <ion-col>
+        Producto
       </ion-col>
       <ion-col>
-        <ion-item>
-          <ion-icon item-end (click)="eliminarProducto($event, c.idP);" [attr.data-target]="c.idP" name="trash"></ion-icon>
-        </ion-item>
+        {{ c.nombre }}
       </ion-col>
     </ion-row>
+
+    <ion-row>
+      <ion-col>
+        Descripción 
+      </ion-col>
+      <ion-col>
+        {{ c.descripcion }}
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        Cantidad    
+      </ion-col>
+      <ion-col>
+        {{ c.cantidad }}
+      <br>
+          <ion-icon item-end (click)="removeCantidad($event, c);" [attr.data-target]="c" name="remove"></ion-icon>
+      
+          <ion-icon item-end (click)="addCantidad($event, c);" [attr.data-target]="c" name="add"></ion-icon>
+        
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        Precio 
+      </ion-col>
+      <ion-col>
+        {{ c.precio | currency }}
+      </ion-col>
+    </ion-row>
+    </ion-col>
+
+    <ion-col col-2>
+    
+          <ion-icon item-end (click)="eliminarProducto($event, c.idP);" [attr.data-target]="c.idP" name="trash"></ion-icon>
+    
+
+    </ion-col>
+    </ion-row>
+
+
+  </ion-grid>
+
+    
   </ion-item>
 
   <ion-card id="carrito-card22">

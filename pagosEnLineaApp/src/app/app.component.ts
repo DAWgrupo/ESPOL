@@ -7,6 +7,7 @@ import {SeleccionMetodoPagoPage} from '../pages/seleccion-metodo-pago/seleccion-
 import { CarritoPage } from '../pages/carrito/carrito';
 import { CheckoutPage } from '../pages/checkout/checkout';
 import {CarteraTarjetasPage} from '../pages/cartera-tarjetas/cartera-tarjetas';
+import { HistorialPage } from '../pages/historial/historial'
 
 
 
@@ -29,6 +30,7 @@ export class MyApp {
       { title: 'Checkout', component: CheckoutPage },
       { title: 'Cartera de Tarjetas', component: CarteraTarjetasPage },
       { title: 'Carrito', component: CarritoPage },
+      { title: 'Historial de Pagos', component: HistorialPage},
 
     ];
 

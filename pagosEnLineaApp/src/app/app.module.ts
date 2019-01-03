@@ -12,6 +12,7 @@ import { CarritoPage } from '../pages/carrito/carrito';
 import { ApiServiceProvider } from '../providers/api-service/api-service';
 import { HttpModule} from '@angular/http';
 import { ValoresPage } from '../pages/valores/valores'
+import { HistorialPage } from '../pages/historial/historial';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ValoresPage } from '../pages/valores/valores'
     CheckoutPage,
     CarteraTarjetasPage,
     ValoresPage,
+    HistorialPage,
 
   ],
   imports: [
@@ -38,6 +40,7 @@ import { ValoresPage } from '../pages/valores/valores'
     CheckoutPage,
     CarteraTarjetasPage,
     ValoresPage,
+    HistorialPage,
 
 
   ],
