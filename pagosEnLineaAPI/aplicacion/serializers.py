@@ -6,7 +6,7 @@ from .models import producto, usuario, carrito, venta, tarjeta
 class ProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = producto
-        fields = ('idP','nombre','precio','descripcion')
+        fields = ('idP','nombre','precio','descripcion','cantidad')
 
 class CarritoSerializer(serializers.ModelSerializer):
     class Meta:

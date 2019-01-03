@@ -10,90 +10,32 @@
 </ion-header>
 <ion-content>
 
-  <ion-item *ngFor="let c of productos">
-    <div class="row">
-
-      <div class="col">
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="customCheck1">
-        </div>
-      </div>
-
-      <div class="col-6">
-        <h2>Nombre: </h2>
-        <h2>Detalle: </h2>
-        <h2>Cantidad: </h2>
-        <h2>Precio: </h2>
-      </div>
-      
-      <div class="col">
-        <h2> {{ c.nombre }} </h2>
-        <h2>{{ c.descripcion }} </h2>
-        <h2> <input type="number"  value = "1" id="tentacles" name="tentacles" min="1" max="10"></h2>
-        <h2>${{ c.precio }} </h2>
-      </div>
-
-      <div class="col-2">
-        <button type="button" [attr.data-target]="c.idP" class="btn btn-danger" (click)="eliminarProducto($event, c.idP);" data-toggle="tooltip" data-placement="top" title="Borrar">Eliminar</button>
-      </div>
-
-
-    </div>
-    
+<ion-item *ngFor="let c of productos" >
+    <ion-row>
+      <ion-col col-auto>
+          <p>Producto: {{ c.nombre }} </p>
+          <p>Descripción: {{ c.descripcion }} </p>
+          <p>Cantidad:  {{ c.cantidad }} </p>
+          <ion-item>
+            <ion-icon item-end (click)="removeCantidad($event, c);" [attr.data-target]="c" name="remove"></ion-icon>
+            <ion-icon item-end (click)="addCantidad($event, c);" [attr.data-target]="c" name="add"></ion-icon>
+          </ion-item>
+          <p>Precio: ${{ c.precio }} </p>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-icon item-end (click)="eliminarProducto($event, c.idP);" [attr.data-target]="c.idP" name="trash"></ion-icon>
+        </ion-item>
+      </ion-col>
+    </ion-row>
   </ion-item>
-
-
-<ion-item *ngFor="let c of productos">
-  <ion-card id="carrito-card21">
-    <ion-list>
-      <ion-item color="none" id="carrito-list-item15">
-        <ion-avatar item-left>
-          <img />
-        </ion-avatar>
-        <h2>
-          Producto
-        </h2>
-      </ion-item>
-      <div style="width:100%;height:220px;margin:0px 0px;line-height:250px;background-color:#e8ebef;text-align:center;">
-        <i class="icon ion-image" style="font-size:64px;color:#888;vertical-align:middle;"></i>
-      </div>
-      <form id="carrito-form8">
-        <ion-item id="carrito-checkbox1">
-          <ion-label>
-            {{ c.nombre }}
-          </ion-label>
-          <ion-checkbox></ion-checkbox>
-        </ion-item>
-        <div id="carrito-markdown14" class="show-list-numbers-and-dots">
-          <p style="color:#000000;">
-            Cantidad
-          </p>
-        </div>
-        <ion-item id="carrito-input7">
-          <ion-label>
-            Cantidad:
-          </ion-label>
-          <ion-input type="text" placeholder=""></ion-input>
-        </ion-item>
-
-        <ion-item id="carrito-input8">
-          <ion-label>
-            Precio: {{ c.precio }}
-          </ion-label>
-          <ion-input type="text" placeholder=""></ion-input>
-        </ion-item>
-
-      </form>
-    </ion-list>
-  </ion-card>
-</ion-item>
 
   <ion-card id="carrito-card22">
     <ion-list>
       <h1 id="carrito-heading2" style="color:#000000;">
         Total: {{ totalCarrito | currency  }}
       </h1>
-      <button id="carrito-button6" ion-button color="positive" block>
+      <button id="carrito-button6" (click)="goPage();" ion-button color="positive" block>
         Continuar
       </button>
     </ion-list>

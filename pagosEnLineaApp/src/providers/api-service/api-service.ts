@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
+
 /*
   Generated class for the ApiServiceProvider provider.
 
@@ -27,6 +28,16 @@ export class ApiServiceProvider {
       });
     });
   }
+
+  setProducto(idProducto, producto): any {
+   
+    return this.http
+        .put(`${this.API_URL}/api/producto/` + idProducto + '/', producto)
+        .map(res => res.json())
+        .toPromise()
+        .then(res => console.log(res.toString()))
+        .catch(err => console.log(err));
+}
 
   deleteProducto(idProducto): any {
     return this.http

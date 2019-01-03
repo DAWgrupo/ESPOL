@@ -9,6 +9,7 @@ class producto(models.Model):
     nombre = models.CharField(max_length = 50)
     precio = models.DecimalField(max_digits = 6, decimal_places = 2)
     descripcion = models.TextField()
+    cantidad = models.IntegerField()
     
     class Meta:
         ordering = ('nombre',)

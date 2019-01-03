@@ -11,6 +11,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { CarritoPage } from '../pages/carrito/carrito';
 import { ApiServiceProvider } from '../providers/api-service/api-service';
 import { HttpModule} from '@angular/http';
+import { ValoresPage } from '../pages/valores/valores'
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { HttpModule} from '@angular/http';
     CarritoPage,
     CheckoutPage,
     CarteraTarjetasPage,
+    ValoresPage,
 
   ],
   imports: [
@@ -35,6 +37,7 @@ import { HttpModule} from '@angular/http';
     CarritoPage,
     CheckoutPage,
     CarteraTarjetasPage,
+    ValoresPage,
 
 
   ],
