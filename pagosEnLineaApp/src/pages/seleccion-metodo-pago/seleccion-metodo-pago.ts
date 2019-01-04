@@ -16,7 +16,8 @@ import { CheckoutPage } from '../checkout/checkout';
 })
 export class SeleccionMetodoPagoPage {
   selectedItems: any;
-  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, type: String, number: String}> = [];
+  //c: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}> = [];
+  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}> = [];
   response: any = 
   {
     "cards": [
@@ -78,16 +79,30 @@ export class SeleccionMetodoPagoPage {
         "holder_name" : card.holder_name,
         "expiry_year" : card.expiry_year.slice(2,5).toString(),
         "expiry_month": expiry_month,
-        "type": card.type
+        "icon": "../../assets/imgs/"+  card.type.toString()+".png"
       };
       this.cards.push(tmp_card)
     }
+    console.log(this.selectedItems);
+    //console.log(this.cards);
+    console.log(this.cards.filter( ( el ) =>  this.selectedItems.indexOf( el ) < 0));
+    this.cards = this.cards.filter( ( el ) =>  this.selectedItems.indexOf( el ) < 0);
   }
-  itemTapped(event, item) {
-    this.selectedItems.push(item)
-    this.navCtrl.push(CheckoutPage, {
-      cards: this.selectedItems
-    });
+
+  /**
+ * Invoca al componente Checkout y envia las tarjetas para pagar
+ * 
+ * @param item tarjeta seleccionada
+ */
+  itemTapped(item) {
+    let res = this.selectedItems.find(card => card.number === item.number)
+    if (!res){
+      this.selectedItems.push(item)
+      this.navCtrl.push(CheckoutPage, {
+        cards: this.selectedItems
+      });
+   }
+    
   }
 
   ionViewDidLoad() {

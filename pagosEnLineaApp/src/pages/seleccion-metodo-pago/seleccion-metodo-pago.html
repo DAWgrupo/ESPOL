@@ -13,10 +13,10 @@
       <ion-row>
       <ion-col col-10 offset-1>
           <ion-list>
-              <ion-item  padding-left *ngFor="let card of cards" (tap)="itemTapped($event, card)">
+              <ion-item  padding-left *ngFor="let card of cards" (tap)="itemTapped(card)">
                   
                    <ion-label>
-                    <ion-img width="40" src="../../assets/imgs/{{card.type}}.png"></ion-img>
+                    <ion-img width="40" [src]="card.icon"></ion-img>
                     {{card.number}}<br>
                     {{card.holder_name}}<br>
                     {{card.expiry_month}}/{{card.expiry_year}}

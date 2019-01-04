@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import {SeleccionMetodoPagoPage} from '../pages/seleccion-metodo-pago/seleccion-metodo-pago';
 import {CarteraTarjetasPage} from '../pages/cartera-tarjetas/cartera-tarjetas';
+import { ResumenDePagoPage } from '../pages/resumen-de-pago/resumen-de-pago';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { CheckoutPage } from '../pages/checkout/checkout';
@@ -14,6 +15,7 @@ import { HttpModule} from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { IonicStorageModule } from '@ionic/storage';
+import {  AlertController } from 'ionic-angular';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { IonicStorageModule } from '@ionic/storage';
     CarritoPage,
     CheckoutPage,
     CarteraTarjetasPage,
+    ResumenDePagoPage
     
 
   ],
@@ -41,6 +44,7 @@ import { IonicStorageModule } from '@ionic/storage';
     CarritoPage,
     CheckoutPage,
     CarteraTarjetasPage,
+    ResumenDePagoPage
 
 
   ],
@@ -52,6 +56,7 @@ import { IonicStorageModule } from '@ionic/storage';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiServiceProvider,
     InAppBrowser,
+    AlertController,
 
   ]
 })

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, LoadingController } from 'ionic-angular';
+import { Nav, Platform, LoadingController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
@@ -21,7 +21,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public loadingCtrl: LoadingController, private api: ApiServiceProvider, public storage: Storage) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public loadingCtrl: LoadingController,private alert: AlertController, public api: ApiServiceProvider, public storage: Storage) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -39,9 +39,10 @@ export class MyApp {
     this.platform.ready().then(() => {
       //mock de cookie para la info del usuario loggeado
       let userId = '1';
-      let email = 'jamin.r.m@gmmail.com';
-      this.storage.set('userId', userId)
+      let email = "jamin.r.m@gmail.com";
       this.storage.set('email', email)
+      this.storage.set('userId', userId)
+      
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
