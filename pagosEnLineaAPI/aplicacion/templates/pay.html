@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>  
+        <title>Example Paymentez Add Card | PaymentezJs</title>
+        <meta charset="UTF-8">  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+        <link href="https://cdn.paymentez.com/js/1.0.1/paymentez.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.paymentez.com/js/1.0.1/paymentez.min.js"></script>
+
+        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+    </head>
+    <body>
+        <div class="panel">
+            <div class="paymentez-form" id="my-card" data-capture-name="true" data-capture-email="true" ></div>
+            <button id="getBank" >GetCard</button>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                var paymentez_server_app_code = 'INNOVA-EC-SERVER';
+                var paymentez_server_app_key = 'Y5FnbpWYtULtj1Muvw3cl8LJ7FVQfM';
+                Paymentez.init('stg', paymentez_server_app_code, paymentez_server_app_key);
+
+                var auth_token = Paymentez.getAuthToken(paymentez_server_app_code, paymentez_server_app_key);
+                var uid = 1;
+                console.log(auth_token);
+
+
+                var successHandler = function(cardResponse) {
+                console.log(cardResponse.card);
+                if(cardResponse.card.status === 'valid'){
+                    $('#messages').html('Card Successfully Added<br>'+
+                                'status: ' + cardResponse.card.status + '<br>' +
+                                "Card Token: " + cardResponse.card.token + "<br>" +
+                                "transaction_reference: " + cardResponse.card.transaction_reference
+                                );    
+                }else if(cardResponse.card.status === 'review'){
+                    $('#messages').html('Card Under Review<br>'+
+                                'status: ' + cardResponse.card.status + '<br>' +
+                                "Card Token: " + cardResponse.card.token + "<br>" +
+                                "transaction_reference: " + cardResponse.card.transaction_reference
+                                ); 
+                }else if(cardResponse.card.status === 'pending'){
+                    $('#messages').html('Card Pending To Approve<br>'+
+                                'status: ' + cardResponse.card.status + '<br>' +
+                                "Card Token: " + cardResponse.card.token + "<br>" +
+                                "transaction_reference: " + cardResponse.card.transaction_reference
+                                ); 
+                }else{
+                    $('#messages').html('Error<br>'+
+                                'status: ' + cardResponse.card.status + '<br>' +
+                                "message Token: " + cardResponse.card.message + "<br>"
+                                ); 
+                }
+                submitButton.removeAttr("disabled");
+                submitButton.text(submitInitialText);
+                };
+
+                var errorHandler = function(err) {    
+                console.log(err.error);
+                $('#messages').html(err.error.type);    
+                submitButton.removeAttr("disabled");
+                submitButton.text(submitInitialText);
+                };
+
+
+
+                $("#getBank").on('click', function () {
+                    var myCard = $('#my-card');
+                    var cardToSave = myCard.PaymentezForm('card');
+                    if(cardToSave == null){
+                    alert("Invalid Card Data");
+                    }else{
+                        var email = $('.email').innerText;
+                        console.log(email)
+                        Paymentez.addCard(4, email, cardToSave, successHandler, errorHandler);
+                        console.log(cardToSave)
+                    }
+                });
+
+            });
+
+        </script>
+    </body>
+</html>

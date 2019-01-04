@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { ApiServiceProvider } from '../../providers/api-service/api-service';
+import { Storage } from '@ionic/storage';
+import {  AlertController } from 'ionic-angular';
+
+
+//declare var PaymentezForm;
+//declare var Paymentez;
+//declare var jQuery;
 
 /**
  * Generated class for the CarteraTarjetasPage page.
@@ -14,9 +22,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'cartera-tarjetas.html',
 })
 export class CarteraTarjetasPage {
-
+  
   selectedItem: any;
-  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, type: String, number: String}> = [];
+  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}> = [];
   response: any = 
   {
     "cards": [
@@ -57,34 +65,54 @@ export class CarteraTarjetasPage {
     "result_size": 3
 };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public storage: Storage, public navParams: NavParams, private api: ApiServiceProvider, public loadingCtrl: LoadingController,  public alertCtrl: AlertController) {
     // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
+    this.cards = navParams.get('cards');
 
     // Let's populate this page with some filler content for funzies
-    this.getCards();
+    
     
 
   
   }
-  getCards(){
-    for (let card of this.response.cards) {
-      let expiry_month : String;
-      if (Number(card.expiry_month) < 10 ){
-        expiry_month = "0" + card.expiry_month;
-      }
-      let tmp_card = {
-        "number" : card.bin.slice( 1, 5) + " XXXX XXXX " + card.number,
-        "holder_name" : card.holder_name,
-        "expiry_year" : card.expiry_year.slice(2,5).toString(),
-        "expiry_month": expiry_month,
-        "type": card.type
-      };
-      this.cards.push(tmp_card)
-    }
+  
+   /** Añade una tarjeta de credito/debito a el cliente que se ha authenticado
+   */
+  addCard(){
+    this.storage.get('userId').then(value=>{
+      this.api.addCard(value).then((result) => {
+        if (result){
+          this.api.getAllCards(value).then((data: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}>) => {
+          let opt =  {
+            cards: data
+          }
+          this.navCtrl.pop();
+          this.navCtrl.push(CarteraTarjetasPage, opt);
+          let alert = this.alertCtrl.create({
+            title: 'Tarjeta Guardada',
+            subTitle: 'Su tarjeta ha sido guardada con exito!',
+            buttons: [{
+              text: 'Ok',
+              handler: () => {
+                // user has clicked the alert button
+                // begin the alert's dismiss transition
+                alert.dismiss();
+              }
+            }]
+            
+
+          });
+          })
+        }
+      })
+    })
   }
+
+  
+
+
   itemTapped(event, item) {
-    // That's right, we're pushing to ourselves!
+    
     this.navCtrl.push(CarteraTarjetasPage, {
       item: item
     });
@@ -92,6 +120,10 @@ export class CarteraTarjetasPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CarteraTarjetasPage');
+    console.log(this.cards);
+    //this.addCard();
+   
   }
+
 
 }

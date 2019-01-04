@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
@@ -36,10 +37,11 @@ class JSONResponse(HttpResponse):
 """
 
 class ProductoList(generics.ListCreateAPIView):
+ 
     queryset = producto.objects.all()
     serializer_class = ProductoSerializer
 
-class ProductoDetail(generics.RetrieveUpdateDestroyAPIView):
+class ProductoDetail(generics.RetrieveUpdateAPIView):
     queryset = producto.objects.all()
     serializer_class = ProductoSerializer
 
@@ -66,6 +68,22 @@ class UsuarioList(generics.ListCreateAPIView):
 class UsuarioDetail(generics.RetrieveUpdateAPIView):
     queryset = usuario.objects.all()
     serializer_class = UsuarioSerializer
+
+def getAllCards(request, idU):
+    print(usuario.objects.filter(idU=idU)[0].get_all_cards() )
+    #return HttpResponse("<script>parent.Response_OK();</script>")
+    return  JsonResponse(usuario.objects.filter(idU=idU)[0].get_all_cards() ) 
+
+def saveCard(request, idU):
+    #print(usuario.objects.filter(idU=idU)[0].saveCard() )
+    #return HttpResponse("<script>parent.Response_OK();</script>")
+    #return  JsonResponse(usuario.objects.filter(idU=idU)[0].saveCard() ) 
+    return render(
+        request,
+        'pay.html',
+        context={},
+    )
+
 
 class TarjetaList(generics.ListCreateAPIView):
     queryset = tarjeta.objects.all()

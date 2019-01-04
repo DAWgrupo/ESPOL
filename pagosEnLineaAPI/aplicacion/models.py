@@ -1,7 +1,15 @@
 from django.db import models
 
+import time
+import hashlib
+from base64 import b64encode
+import requests
+
+
 
 # Create your models here.
+
+
 
 class producto(models.Model):
     objects = models.Manager()
@@ -9,7 +17,7 @@ class producto(models.Model):
     nombre = models.CharField(max_length = 50)
     precio = models.DecimalField(max_digits = 6, decimal_places = 2)
     descripcion = models.TextField()
-    
+       
     class Meta:
         ordering = ('nombre',)
 
@@ -25,8 +33,47 @@ class usuario(models.Model):
     correo = models.EmailField(max_length = 50)
     clave = models.CharField(max_length = 20, null = False)
 
+    paymentez_server_app_code = 'INNOVA-EC-SERVER'
+    paymentez_server_app_key = 'Y5FnbpWYtULtj1Muvw3cl8LJ7FVQfM'
+
     def __str__(self):
         return self.nombre
+    
+    def get_token(self):
+        unix_timestamp = str(int(time.time()))
+        uniq_token_string = usuario.paymentez_server_app_key + unix_timestamp
+        uniq_token_hash = hashlib.sha256(uniq_token_string.encode('utf-8')).hexdigest()
+        data = usuario.paymentez_server_app_code + ";" + unix_timestamp + ";" +uniq_token_hash
+        auth_token = b64encode(data.encode('ascii'))
+        return auth_token
+    
+    def get_all_cards(self):
+        response = requests.get('https://ccapi-stg.paymentez.com/v2/card/list?uid=' + str(self.idU), 
+                     headers={'Auth-Token': self.get_token()})
+        return response.json()
+    
+    def saveCard(self):
+        response = requests.post('https://ccapi-stg.paymentez.com/v2/card/add/api/cc/add/', 
+                     headers={'Auth-Token': self.get_token()}, data = {
+                         'user':
+                         {
+                             'id':str(self.idU),
+                             'email':str(self.correo),
+                         },
+                         'card': {
+                             'number': '5119159076977991',
+                             'holder_name': 'prueba1',
+                             'expiry_month': '9',
+                             'expiry_year': '2020',
+                             'cvc':'123',
+                             'type': 'vi'
+                         }
+                     })
+
+        return response.json()
+
+        
+        
 
 class tarjeta(models.Model):
     objects = models.Manager()

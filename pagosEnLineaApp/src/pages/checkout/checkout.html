@@ -22,7 +22,7 @@
         <ion-list>
           <ion-item *ngFor="let card of cards ; index as i" no-lines padding-bottom>
                <ion-label>
-                  <p><ion-img width="40" src="../../assets/imgs/{{card.type}}.png"></ion-img>
+                  <p><ion-img width="40" [src]="card.icon"></ion-img>
                 {{card.number}}</p>
                 <p>{{card.holder_name}}</p>
                 <p>{{card.expiry_month}}/{{card.expiry_year}}</p>
@@ -40,7 +40,7 @@
     
           <label ion-item *ngIf="cards.length === 0" >
               <ion-avatar item-start>
-                  <img src="../../assets/imgs/card.png">
+                  <img src="assets/imgs/card.png">
                 </ion-avatar>
                 <h2></h2>
                 <p>No hay tarjetas seleccionadas</p>
@@ -48,7 +48,7 @@
         </ion-list> 
       </ion-col>
       <ion-col class="flexcontainer">
-        <button center ion-fab mini color="light" (tap)="itemTapped($event, card)"><ion-icon name="add"></ion-icon></button>
+        <button center ion-fab mini color="light" (tap)="aniadirTarjeta()"><ion-icon name="add"></ion-icon></button>
       </ion-col>
     </ion-row>
     <ion-col col-12>
@@ -58,6 +58,10 @@
     <ion-col col-12>
         <h6 text-center>Valor Pendiente</h6>
         <h3 text-center>{{pending_value | currency }} </h3>
+        <h4 text-center  *ngIf="enableWarning" ion-text color="danger">La suma de los valores a pagar no puede ser mayor al total a pagar </h4>
+      </ion-col>
+      <ion-col col-12 class="flexcontainer">
+        <button center ion-button round color="light" *ngIf="enablePayment"  (tap)="resumenDePago()">Continuar</button>
       </ion-col>
   </ion-grid>
 </ion-content>
