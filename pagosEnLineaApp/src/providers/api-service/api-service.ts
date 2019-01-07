@@ -61,8 +61,7 @@ export class ApiServiceProvider {
     let cards:  Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}> = [];
     return new Promise( (resolve, reject) => {
       this.storage.get('userToken').then(token=>{
-        const browser = this.iab.create(ENV.BASE_URL + "/api/" +"cards/add/?TOKEN=" + token);
-        this.http.get(this.API_URL + '/api/' + 'cards?format=json').subscribe(data => {
+        this.http.get(ENV.BASE_URL + "/api/" +"cards/?TOKEN=" + token).subscribe(data => {
           let response;
           response = data.json();
           
@@ -120,7 +119,10 @@ export class ApiServiceProvider {
                     clearInterval( loop );
                     browser.close();
                     console.log(submitted)
-                    resolve(true);
+                    setTimeout(function() {
+                      resolve(true);
+                    }, 1000);
+                    
                 }
             });
           })
