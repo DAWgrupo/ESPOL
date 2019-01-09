@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-an
 import { ApiServiceProvider } from '../../providers/api-service/api-service';
 import { Storage } from '@ionic/storage';
 import {  AlertController } from 'ionic-angular';
-import { Constantes } from '../../util/constantes';
+
 
 
 
@@ -22,7 +22,7 @@ import { Constantes } from '../../util/constantes';
 export class CarteraTarjetasPage {
   
   selectedItem: any;
-  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}> = [];
+  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String, card_token: String}> = [];
   
 
   constructor(public navCtrl: NavController,
@@ -52,8 +52,8 @@ export class CarteraTarjetasPage {
           let opt =  {
             cards: data
           }
-          this.navCtrl.pop();
-          this.navCtrl.push(CarteraTarjetasPage, opt);
+          
+          this.navCtrl.setRoot(CarteraTarjetasPage, opt);
           let alert = this.alertCtrl.create({
             title: 'Tarjeta Guardada',
             subTitle: 'Su tarjeta ha sido guardada con exito!',
@@ -75,14 +75,26 @@ export class CarteraTarjetasPage {
   }
 
   
+  deleteCard(card_token){
+    this.api.deleteCard(card_token).then((result) => { 
 
+      this.storage.get('userId').then( cedula=>{
 
-  itemTapped(event, item) {
-    
-    this.navCtrl.push(CarteraTarjetasPage, {
-      item: item
-    });
+        this.api.getAllCards(cedula).then((data) => {
+          let opt =  {
+            cards: data
+          }
+          this.navCtrl.setRoot(CarteraTarjetasPage, opt);
+        })
+
+      })
+      
+      
+      
+     })
   }
+
+ 
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CarteraTarjetasPage');

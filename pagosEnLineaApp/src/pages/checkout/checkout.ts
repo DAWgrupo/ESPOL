@@ -21,7 +21,7 @@ export class CheckoutPage {
   selectedItems: Array<any>;
   total_value : number = 10;
   pending_value : number = this.total_value;
-  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, type: String, number: String, value: number}> = [];
+  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, type: String, number: String, card_token: String, value: number}> = [];
   enablePayment: boolean = false;
   enableWarning:boolean = false;
 /**
@@ -95,6 +95,7 @@ aniadirTarjeta() {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CheckoutPage');
+    console.log(this.cards);
   }
 
 }

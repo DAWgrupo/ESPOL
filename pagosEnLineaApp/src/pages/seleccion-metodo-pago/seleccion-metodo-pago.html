@@ -16,7 +16,7 @@
               <ion-item  padding-left *ngFor="let card of cards" (tap)="itemTapped(card)">
                   
                    <ion-label>
-                    <ion-img width="40" [src]="card.icon"></ion-img>
+                    <img width="40" [src]="card.icon">
                     {{card.number}}<br>
                     {{card.holder_name}}<br>
                     {{card.expiry_month}}/{{card.expiry_year}}

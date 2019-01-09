@@ -1,5 +1,5 @@
 
-import { Http } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { environment as ENV } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
@@ -7,7 +7,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import {  LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Constantes } from '../../util/constantes'
-
+import 'rxjs/add/operator/timeout';
 /*
   Generated class for the ApiServiceProvider provider.
 
@@ -18,6 +18,13 @@ import { Constantes } from '../../util/constantes'
 export class ApiServiceProvider {
 
   private API_URL = ENV.BASE_URL //'10.0.2.2:8000' //'http://127.0.0.1:8000'
+
+  private headers = new Headers({
+    'Content-Type': 'application/x-www-form-urlencoded'
+  });
+  private options = new RequestOptions({
+    headers: this.headers
+  });
 
   constructor(public http: Http,private iab: InAppBrowser, public loadingCtrl: LoadingController,public storage: Storage) {
     console.log('Hello ApiServiceProvider Provider');
@@ -77,7 +84,8 @@ export class ApiServiceProvider {
               "holder_name" : card.holder_name,
               "expiry_year" : card.expiry_year.slice(2,5).toString(),
               "expiry_month": expiry_month,
-              "icon": "assets/imgs/"+  card.type.toString()+".png"
+              "icon": "assets/imgs/"+  card.type.toString()+".png",
+              "card_token":  card.token
             };
             console.log(card.type)
             cards.push(tmp_card)
@@ -143,6 +151,26 @@ export class ApiServiceProvider {
         })
     })
     });
+  }
+
+  deleteCard(card_token){
+    return new Promise( (resolve, reject) => {
+
+      this.storage.get('userToken').then( token=>{
+
+        var body = JSON.stringify({
+          TOKEN: token,
+          card_token :card_token
+        });
+
+        this.http.post(ENV.BASE_URL + "/api/" + "cards/delete/?TOKEN="+ token,body, this.options).subscribe(info =>{ resolve(info) } ,
+        error => {
+          reject(new Error(Constantes.INTENTALO_NUEVAMENTE))
+        })
+      })
+
+    });
+
   }
   
 }
