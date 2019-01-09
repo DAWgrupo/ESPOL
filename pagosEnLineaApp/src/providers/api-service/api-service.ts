@@ -80,7 +80,7 @@ export class ApiServiceProvider {
               expiry_month = card.expiry_month;
             }
             let tmp_card = {
-              "number" : card.bin.slice( 1, 4) + " XXXX XXXX " + card.number,
+              "number" : " " + card.bin.slice( 0, 4) + " XXXX XXXX " + card.number,
               "holder_name" : card.holder_name,
               "expiry_year" : card.expiry_year.slice(2,5).toString(),
               "expiry_month": expiry_month,
@@ -153,6 +153,27 @@ export class ApiServiceProvider {
     });
   }
 
+  pay(order: Array<any>){
+    return new Promise( (resolve, reject) => {
+
+      this.storage.get('userToken').then( token=>{
+        let request= {
+          'cards' : order,
+          'TOKEN' : token
+        }
+          
+        var body = JSON.stringify(request);
+        
+
+        this.http.post(ENV.BASE_URL + "/api/" + "usuario/pay/",body, this.options).subscribe(info =>{ resolve(info) } ,
+        error => {
+          reject(new Error(Constantes.INTENTALO_NUEVAMENTE))
+        })
+      })
+
+    });
+
+  }
   deleteCard(card_token){
     return new Promise( (resolve, reject) => {
 
@@ -163,7 +184,7 @@ export class ApiServiceProvider {
           card_token :card_token
         });
 
-        this.http.post(ENV.BASE_URL + "/api/" + "cards/delete/?TOKEN="+ token,body, this.options).subscribe(info =>{ resolve(info) } ,
+        this.http.post(ENV.BASE_URL + "/api/" + "cards/delete/",body, this.options).subscribe(info =>{ resolve(info) } ,
         error => {
           reject(new Error(Constantes.INTENTALO_NUEVAMENTE))
         })

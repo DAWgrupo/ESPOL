@@ -22,7 +22,7 @@
         <ion-list>
           <ion-item *ngFor="let card of cards ; index as i" no-lines padding-bottom>
                <ion-label>
-                  <p><ion-img width="40" [src]="card.icon"></ion-img>
+                  <p><img width="40" [src]="card.icon">
                 {{card.number}}</p>
                 <p>{{card.holder_name}}</p>
                 <p>{{card.expiry_month}}/{{card.expiry_year}}</p>

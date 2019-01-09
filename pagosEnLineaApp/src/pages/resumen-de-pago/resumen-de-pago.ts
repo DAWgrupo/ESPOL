@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { SeleccionMetodoPagoPage } from '../seleccion-metodo-pago/seleccion-metodo-pago';
+import { ApiServiceProvider } from '../../providers/api-service/api-service';
 
 
 /**
@@ -15,6 +15,7 @@ import { SeleccionMetodoPagoPage } from '../seleccion-metodo-pago/seleccion-meto
   selector: 'page-resumen-de-pago',
   templateUrl: 'resumen-de-pago.html',
 })
+
 export class ResumenDePagoPage {
 
   selectedItems: Array<any>;
@@ -22,63 +23,14 @@ export class ResumenDePagoPage {
   pending_value : number = this.total_value;
   cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, type: String, number: String, card_token: String, value: number, installments:number}> = [];
   enablePayment: boolean = false;
-  enableWarning:boolean = false;
-/**
- * Elimina una tarjeta de la lista de metodos de pago seleccionados para esta compra
- * @param textInput input del formulario que contiene el valor a pagar con una sola tarjeta
- * @param i numero entero que representa a una tarjeta 
- */
-removeCard(textInput: any, i:number){
-  textInput.value = "";
-  this.cards.splice(i,1);
-  this.updatePendingValue();
-
-}
-/**
- * Actualiza los valores a pagar con cada tarjeta y el valor pendiente a pagar
- * @param textInput input del formulario que contiene el valor a pagar con una sola tarjeta
- * @param i numero entero que representa a una tarjeta seleccionada para realizar un pago
- */
-updateValues(textInput: any, i: number){
-  this.cards[i].value = Number(textInput.value);
-  this.updatePendingValue();
-}
-
-/**
- * Actualiza el valor total pendiente a pagar
- */
-updatePendingValue(){
-  this.enablePayment = false;
-  this.enableWarning = false;
-  this.pending_value = this.total_value;
-  for (let card of this.cards){
-    if (card.value)
-      this.pending_value = this.pending_value - card.value;
-  }
-
-  if (this.pending_value === 0){
-    this.enablePayment = true;
-  }
-  if (this.pending_value < 0){
-    this.enableWarning = true;
-  }
-}
+  enableWarning:boolean = false; 
+  
 
 
 
-/**
- * Invoca al componente Seleccion de metodo de pago para seleccionar tarjetas para pagar
- * 
- * 
- */
-aniadirTarjeta() {
-  this.navCtrl.push(SeleccionMetodoPagoPage, { cards:this.cards
-  });
-}
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private api: ApiServiceProvider) {
     
-    // Obtiene tarjetas seleccionadas para el pago desde la vista padre (Seleccion de metodo de pago)
+    // Obtiene tarjetas seleccionadas para el pago desde la vista padre
     this.selectedItems = navParams.get('cards');
     if (this.selectedItems)
       this.cards=this.selectedItems;
@@ -92,6 +44,9 @@ aniadirTarjeta() {
     });
   }
 
+  pagar(){
+    this.api.pay(this.cards).then((result) => { console.log(result) })   
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad CheckoutPage');
     console.log(this.cards);
