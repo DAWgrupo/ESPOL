@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ApiServiceProvider } from '../../providers/api-service/api-service';
+
 
 
 /**
@@ -19,19 +20,20 @@ import { ApiServiceProvider } from '../../providers/api-service/api-service';
 export class ResumenDePagoPage {
 
   selectedItems: Array<any>;
-  total_value : number = 10;
+  total_value : number;
   pending_value : number = this.total_value;
-  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, type: String, number: String, card_token: String, value: number, installments:number}> = [];
+  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String, card_token: String, value: number, installments:number}> = [];
   enablePayment: boolean = false;
   enableWarning:boolean = false; 
   
 
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private api: ApiServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private api: ApiServiceProvider, public alertCtrl: AlertController) {
     
     // Obtiene tarjetas seleccionadas para el pago desde la vista padre
     this.selectedItems = navParams.get('cards');
+    this.total_value = navParams.get('total_value');
     if (this.selectedItems)
       this.cards=this.selectedItems;
   }
@@ -44,8 +46,30 @@ export class ResumenDePagoPage {
     });
   }
 
+
   pagar(){
-    this.api.pay(this.cards).then((result) => { console.log(result) })   
+    let mensaje = "";
+
+    
+    let alert = this.alertCtrl.create({
+      title: "Esta seguro de que desea continuar?",
+      
+      message: "El valor total de esta compra es $"+  this.total_value.toString(),
+      buttons: [
+        {
+          text: 'OK',
+          role: 'cancel',
+          handler: () => {
+            this.api.pay(this.cards).then((result) => { console.log(result['_body']) }) 
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+      }]
+    });
+    alert.present();
+    //this.api.pay(this.cards).then((result) => { console.log(result['_body']) })   
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad CheckoutPage');

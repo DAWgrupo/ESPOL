@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SeleccionMetodoPagoPage } from '../seleccion-metodo-pago/seleccion-metodo-pago';
 import { ResumenDePagoPage } from '../resumen-de-pago/resumen-de-pago';
-
+import { BrMaskerModule } from 'brmasker-ionic-3';
 
 /**
  * Generated class for the CheckoutPage page.
@@ -21,7 +21,7 @@ export class CheckoutPage {
   selectedItems: Array<any>;
   total_value : number = 10;
   pending_value : number = this.total_value;
-  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, type: String, number: String, card_token: String, value: number}> = [];
+  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String, card_token: String, value: number}> = [];
   enablePayment: boolean = false;
   enableWarning:boolean = false;
 /**
@@ -41,7 +41,7 @@ removeCard(textInput: any, i:number){
  * @param i numero entero que representa a una tarjeta seleccionada para realizar un pago
  */
 updateValues(textInput: any, i: number){
-  this.cards[i].value = Number(textInput.value);
+  this.cards[i].value = Number(textInput.value.replace(/\s/g, ""));
   this.updatePendingValue();
 }
 
@@ -89,7 +89,7 @@ aniadirTarjeta() {
    * Invoca al componente resumen de pago para realizar el pago
    */
   resumenDePago() {
-    this.navCtrl.push(ResumenDePagoPage, { cards:this.cards
+    this.navCtrl.push(ResumenDePagoPage, { cards:this.cards, total_value: this.total_value
     });
   }
 
