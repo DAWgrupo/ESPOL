@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
@@ -36,10 +37,11 @@ class JSONResponse(HttpResponse):
 """
 
 class ProductoList(generics.ListCreateAPIView):
+ 
     queryset = producto.objects.all()
     serializer_class = ProductoSerializer
 
-class ProductoDetail(generics.RetrieveUpdateDestroyAPIView):
+class ProductoDetail(generics.RetrieveUpdateAPIView):
     queryset = producto.objects.all()
     serializer_class = ProductoSerializer
 
@@ -66,6 +68,36 @@ class UsuarioList(generics.ListCreateAPIView):
 class UsuarioDetail(generics.RetrieveUpdateAPIView):
     queryset = usuario.objects.all()
     serializer_class = UsuarioSerializer
+
+def getAllCards(request):
+    token = request.GET.get('TOKEN', None)
+    user = usuario.verifyUser(token)
+    if user["STATUS"]== "OK" :
+        print(usuario.findUser(user)[0].get_all_cards() )
+        return  JsonResponse(usuario.findUser(user)[0].get_all_cards() ) 
+    else:
+        return  JsonResponse({'respuesta': 'Usuario no autorizado'}) 
+
+def saveCard(request):
+    token = request.GET.get('TOKEN', None)
+    user = usuario.verifyUser(token)
+    if user["STATUS"]== "OK" :
+        # si el usuario no existe en la base local lo crea
+        if len(usuario.objects.filter(cedula=user["CEDULA"]).filter(correo=user["CORREO"])) == 0 :
+            usuario.objects.create(nombre=user["NOMBRES"], apellido=user["APELLIDOS"], correo=user["CORREO"], clave="1234", cedula =user["CEDULA"])
+        # devuelve formulario para crear tarjeta
+        return render(
+            request,
+            'pay.html',
+            context={},
+        )
+    else:
+        return  JsonResponse({'respuesta': 'Usuario no autorizado'}) 
+
+def verifyUser(request):
+    token = request.GET.get('TOKEN', None)
+    return  JsonResponse(usuario.verifyUser(token) ) 
+
 
 class TarjetaList(generics.ListCreateAPIView):
     queryset = tarjeta.objects.all()
