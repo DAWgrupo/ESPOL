@@ -6,8 +6,10 @@ import { HomePage } from '../pages/home/home';
 import { CarritoPage } from '../pages/carrito/carrito';
 import { CheckoutPage } from '../pages/checkout/checkout';
 import {CarteraTarjetasPage} from '../pages/cartera-tarjetas/cartera-tarjetas';
+import { HistorialPage } from '../pages/historial/historial'
 import { ApiServiceProvider } from '../providers/api-service/api-service';
 import { Storage } from '@ionic/storage';
+
 
 
 
@@ -30,6 +32,7 @@ export class MyApp {
       { title: 'Checkout', component: CheckoutPage },
       { title: 'Cartera de Tarjetas', component: CarteraTarjetasPage },
       { title: 'Carrito', component: CarritoPage },
+      { title: 'Historial de Pagos', component: HistorialPage},
 
     ];
 

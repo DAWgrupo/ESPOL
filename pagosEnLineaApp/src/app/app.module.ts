@@ -12,11 +12,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { CarritoPage } from '../pages/carrito/carrito';
 import { ApiServiceProvider } from '../providers/api-service/api-service';
 import { HttpModule} from '@angular/http';
+import { ValoresPage } from '../pages/valores/valores'
+import { HistorialPage } from '../pages/historial/historial';
 import { HttpClientModule } from '@angular/common/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { IonicStorageModule } from '@ionic/storage';
 import {  AlertController } from 'ionic-angular';
 import { BrMaskerModule } from 'brmasker-ionic-3';
+
 
 @NgModule({
   declarations: [
@@ -26,6 +29,8 @@ import { BrMaskerModule } from 'brmasker-ionic-3';
     CarritoPage,
     CheckoutPage,
     CarteraTarjetasPage,
+    ValoresPage,
+    HistorialPage,
     ResumenDePagoPage
     
 
@@ -46,6 +51,8 @@ import { BrMaskerModule } from 'brmasker-ionic-3';
     CarritoPage,
     CheckoutPage,
     CarteraTarjetasPage,
+    ValoresPage,
+    HistorialPage,
     ResumenDePagoPage
 
 
