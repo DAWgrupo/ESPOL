@@ -35,11 +35,19 @@ Instalación de PostgreSQL
 
 ## Ejecución
 Ejecución del API
+> python manage.py makemigrations aplicacion
+
 > python manage.py migrate
 
 > python manage.py runserver
 
 Ejecución del APP
-> ionic serve
 
+#### Para debugging en el browser
+> cross-env ENV='local' ionic serve
+
+
+
+Ejecucion del APP en emulador
+> ionic cordova emulate
 

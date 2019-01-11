@@ -69,20 +69,34 @@ class UsuarioDetail(generics.RetrieveUpdateAPIView):
     queryset = usuario.objects.all()
     serializer_class = UsuarioSerializer
 
-def getAllCards(request, idU):
-    print(usuario.objects.filter(idU=idU)[0].get_all_cards() )
-    #return HttpResponse("<script>parent.Response_OK();</script>")
-    return  JsonResponse(usuario.objects.filter(idU=idU)[0].get_all_cards() ) 
+def getAllCards(request):
+    token = request.GET.get('TOKEN', None)
+    user = usuario.verifyUser(token)
+    if user["STATUS"]== "OK" :
+        print(usuario.findUser(user)[0].get_all_cards() )
+        return  JsonResponse(usuario.findUser(user)[0].get_all_cards() ) 
+    else:
+        return  JsonResponse({'respuesta': 'Usuario no autorizado'}) 
 
-def saveCard(request, idU):
-    #print(usuario.objects.filter(idU=idU)[0].saveCard() )
-    #return HttpResponse("<script>parent.Response_OK();</script>")
-    #return  JsonResponse(usuario.objects.filter(idU=idU)[0].saveCard() ) 
-    return render(
-        request,
-        'pay.html',
-        context={},
-    )
+def saveCard(request):
+    token = request.GET.get('TOKEN', None)
+    user = usuario.verifyUser(token)
+    if user["STATUS"]== "OK" :
+        # si el usuario no existe en la base local lo crea
+        if len(usuario.objects.filter(cedula=user["CEDULA"]).filter(correo=user["CORREO"])) == 0 :
+            usuario.objects.create(nombre=user["NOMBRES"], apellido=user["APELLIDOS"], correo=user["CORREO"], clave="1234", cedula =user["CEDULA"])
+        # devuelve formulario para crear tarjeta
+        return render(
+            request,
+            'pay.html',
+            context={},
+        )
+    else:
+        return  JsonResponse({'respuesta': 'Usuario no autorizado'}) 
+
+def verifyUser(request):
+    token = request.GET.get('TOKEN', None)
+    return  JsonResponse(usuario.verifyUser(token) ) 
 
 
 class TarjetaList(generics.ListCreateAPIView):

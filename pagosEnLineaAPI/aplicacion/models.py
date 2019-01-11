@@ -4,7 +4,7 @@ import time
 import hashlib
 from base64 import b64encode
 import requests
-
+from aplicacion.util.constantes import Constantes 
 
 
 # Create your models here.
@@ -32,6 +32,7 @@ class usuario(models.Model):
     apellido = models.CharField(max_length = 50)
     correo = models.EmailField(max_length = 50)
     clave = models.CharField(max_length = 20, null = False)
+    cedula = models.CharField(max_length=20, blank=True)
 
     paymentez_server_app_code = 'INNOVA-EC-SERVER'
     paymentez_server_app_key = 'Y5FnbpWYtULtj1Muvw3cl8LJ7FVQfM'
@@ -48,31 +49,27 @@ class usuario(models.Model):
         return auth_token
     
     def get_all_cards(self):
-        response = requests.get('https://ccapi-stg.paymentez.com/v2/card/list?uid=' + str(self.idU), 
+        response = requests.get('https://ccapi-stg.paymentez.com/v2/card/list?uid=' + str(self.cedula), 
                      headers={'Auth-Token': self.get_token()})
         return response.json()
     
-    def saveCard(self):
-        response = requests.post('https://ccapi-stg.paymentez.com/v2/card/add/api/cc/add/', 
-                     headers={'Auth-Token': self.get_token()}, data = {
-                         'user':
-                         {
-                             'id':str(self.idU),
-                             'email':str(self.correo),
-                         },
-                         'card': {
-                             'number': '5119159076977991',
-                             'holder_name': 'prueba1',
-                             'expiry_month': '9',
-                             'expiry_year': '2020',
-                             'cvc':'123',
-                             'type': 'vi'
-                         }
-                     })
-
+    # Devuelve un diccionario con la informacion del usuario loggeado
+    @staticmethod
+    def verifyUser(token):
+        #token = 'alskmalskdmalskdmasldkmlkm12l3m12lk3m1l3k1mldkmsla'
+        response = requests.get(Constantes.getVerPefilUrl(token))
+        print(Constantes.getVerPefilUrl(token))
+        print(response.json())
         return response.json()
 
-        
+    # Busca un usuario en la base de datos local y devuelve una referencia al objeto
+    @staticmethod
+    def findUser(userCedulaCorreo):
+        response = usuario.objects.filter(cedula=userCedulaCorreo["CEDULA"]).filter(correo=userCedulaCorreo["CORREO"])
+        return response
+
+
+
         
 
 class tarjeta(models.Model):

@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { IonicStorageModule } from '@ionic/storage';
 import {  AlertController } from 'ionic-angular';
+import { BrMaskerModule } from 'brmasker-ionic-3';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {  AlertController } from 'ionic-angular';
     IonicModule.forRoot(MyApp),
     HttpModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    BrMaskerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

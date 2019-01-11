@@ -1,4 +1,4 @@
-export var environment = {   //THIS IS FOR DEV EMULATOR VALUES
-    BASE_URL:'http://10.0.2.2:8000',
+export var environment = {   //THIS IS FOR LOCAL and default EMULATOR VALUES
+    BASE_URL:'http://localhost:8000',
 
     }

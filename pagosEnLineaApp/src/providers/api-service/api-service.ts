@@ -1,13 +1,13 @@
 
-import { Http } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { environment as ENV } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import {  LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-
-
+import { Constantes } from '../../util/constantes'
+import 'rxjs/add/operator/timeout';
 /*
   Generated class for the ApiServiceProvider provider.
 
@@ -18,6 +18,13 @@ import { Storage } from '@ionic/storage';
 export class ApiServiceProvider {
 
   private API_URL = ENV.BASE_URL //'10.0.2.2:8000' //'http://127.0.0.1:8000'
+
+  private headers = new Headers({
+    'Content-Type': 'application/x-www-form-urlencoded'
+  });
+  private options = new RequestOptions({
+    headers: this.headers
+  });
 
   constructor(public http: Http,private iab: InAppBrowser, public loadingCtrl: LoadingController,public storage: Storage) {
     console.log('Hello ApiServiceProvider Provider');
@@ -60,32 +67,35 @@ export class ApiServiceProvider {
 
     let cards:  Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}> = [];
     return new Promise( (resolve, reject) => {
-      this.http.get(this.API_URL + '/api/' + idU + '/cards?format=json').subscribe(data => {
-        let response;
-        response = data.json();
-        
-        for (let card of response.cards) {
-          let expiry_month : String;
-          if (Number(card.expiry_month) < 10 ){
-            expiry_month = "0" + card.expiry_month;
-          }else{
-            expiry_month = card.expiry_month;
+      this.storage.get('userToken').then(token=>{
+        this.http.get(ENV.BASE_URL + "/api/" +"cards/?TOKEN=" + token).subscribe(data => {
+          let response;
+          response = data.json();
+          
+          for (let card of response.cards) {
+            let expiry_month : String;
+            if (Number(card.expiry_month) < 10 ){
+              expiry_month = "0" + card.expiry_month;
+            }else{
+              expiry_month = card.expiry_month;
+            }
+            let tmp_card = {
+              "number" : " " + card.bin.slice( 0, 4) + " XXXX XXXX " + card.number,
+              "holder_name" : card.holder_name,
+              "expiry_year" : card.expiry_year.slice(2,5).toString(),
+              "expiry_month": expiry_month,
+              "icon": "assets/imgs/"+  card.type.toString()+".png",
+              "card_token":  card.token
+            };
+            console.log(card.type)
+            cards.push(tmp_card)
           }
-          let tmp_card = {
-            "number" : card.bin.slice( 1, 4) + " XXXX XXXX " + card.number,
-            "holder_name" : card.holder_name,
-            "expiry_year" : card.expiry_year.slice(2,5).toString(),
-            "expiry_month": expiry_month,
-            "icon": "assets/imgs/"+  card.type.toString()+".png"
-          };
-          console.log(card.type)
-          cards.push(tmp_card)
-        }
-        loading.dismiss();
-        resolve(cards);
-      },error => {
-        loading.dismiss();
-        reject(new Error("No se pudo contactar servidor"))
+          loading.dismiss();
+          resolve(cards);
+        },error => {
+          loading.dismiss();
+          reject(new Error("No se pudo contactar servidor"))
+        })
       })
     });
   }
@@ -95,33 +105,93 @@ export class ApiServiceProvider {
    */
   addCard(idU){
     return new Promise( (resolve, reject) => {
-      const browser = this.iab.create(ENV.BASE_URL + "/api/" +idU+"/cards/add/?format=json"); //10.0.2.2:8000 for simulator or 127.0.0.1:8000 for local 
-      browser.on('loadstop').subscribe(event => {
-        
-        // Enviando al webview los datos del usuario loggeado
-        this.storage.get('email').then(email=>{
-          console.log(email + "  " + idU)
-          browser.executeScript({ code: `localStorage.setItem( 'email', '${String(email)}' );` });
-          browser.executeScript({ code: `localStorage.setItem( 'userId', '${idU}' );` });
-        })
+      this.storage.get('userToken').then(token=>{
+        const browser = this.iab.create(ENV.BASE_URL + "/api/" +"cards/add/?TOKEN=" + token); //10.0.2.2:8000 for simulator or 127.0.0.1:8000 for local 
+        browser.on('loadstop').subscribe(event => {
+          
+          // Enviando al webview los datos del usuario loggeado
+          this.storage.get('email').then(email=>{
+            console.log(email + "  " + idU)
+            browser.executeScript({ code: `localStorage.setItem( 'email', '${String(email)}' );` });
+            browser.executeScript({ code: `localStorage.setItem( 'userId', '${idU}' );` });
+          })
 
-        // Cerrar webview al submittear formulario paymentez
-        browser.executeScript({ code: "localStorage.setItem( 'submitted', '' );" });
-        var loop = setInterval(function() {
-            
-          browser.executeScript({ code: "localStorage.getItem( 'submitted' )" }).then((respuestas)=>{
+          // Cerrar webview al submittear formulario paymentez
+          browser.executeScript({ code: "localStorage.setItem( 'submitted', '' );" });
+          var loop = setInterval(function() {
+              
+            browser.executeScript({ code: "localStorage.getItem( 'submitted' )" }).then((respuestas)=>{
 
-              var submitted = respuestas[ 0 ];
-              if ( submitted ) {
-                  clearInterval( loop );
-                  browser.close();
-                  console.log(submitted)
-                  resolve(true);
-              }
-          });
-        })
-      });
+                var submitted = respuestas[ 0 ];
+                if ( submitted ) {
+                    clearInterval( loop );
+                    browser.close();
+                    console.log(submitted)
+                    setTimeout(function() {
+                      resolve(true);
+                    }, 1000);
+                    
+                }
+            });
+          })
+        });
+      })
     });
+  }
+/**
+ * Obtiene la informacion del usuario loggeado desde la api
+ */
+  verifyUser(){ // deberiamos sincronizar esta tabla en las dos bases de daatos
+    return new Promise( (resolve, reject) => {
+      this.storage.get('userToken').then(token=>{
+        this.http.get(ENV.BASE_URL + "/api/" + "usuario/verify?TOKEN="+token).subscribe((data : any) => {
+          resolve(data.json())
+        },error => {
+          reject(new Error(Constantes.INTENTALO_NUEVAMENTE))
+        })
+    })
+    });
+  }
+
+  pay(order: Array<any>){
+    return new Promise( (resolve, reject) => {
+
+      this.storage.get('userToken').then( token=>{
+        let request= {
+          'cards' : order,
+          'TOKEN' : token
+        }
+          
+        var body = JSON.stringify(request);
+        
+
+        this.http.post(ENV.BASE_URL + "/api/" + "usuario/pay/",body, this.options).subscribe(info =>{ resolve(info) } ,
+        error => {
+          reject(new Error(Constantes.INTENTALO_NUEVAMENTE))
+        })
+      })
+
+    });
+
+  }
+  deleteCard(card_token){
+    return new Promise( (resolve, reject) => {
+
+      this.storage.get('userToken').then( token=>{
+
+        var body = JSON.stringify({
+          TOKEN: token,
+          card_token :card_token
+        });
+
+        this.http.post(ENV.BASE_URL + "/api/" + "cards/delete/",body, this.options).subscribe(info =>{ resolve(info) } ,
+        error => {
+          reject(new Error(Constantes.INTENTALO_NUEVAMENTE))
+        })
+      })
+
+    });
+
   }
   
 }

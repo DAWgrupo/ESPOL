@@ -21,7 +21,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public loadingCtrl: LoadingController,private alert: AlertController, public api: ApiServiceProvider, public storage: Storage) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public loadingCtrl: LoadingController, public api: ApiServiceProvider, public storage: Storage) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -37,11 +37,22 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
+
       //mock de cookie para la info del usuario loggeado
-      let userId = '1';
-      let email = "jamin.r.m@gmail.com";
-      this.storage.set('email', email)
-      this.storage.set('userId', userId)
+      let token='alskmalskdmalskdmasldkmlkm12l3m12lk3m1l3k1mldkmsla'
+      this.storage.set('userToken', token)
+
+
+      this.api.verifyUser().then((data : any)=>{
+        let cedula = data["CEDULA"] 
+        let email = data["CORREO"]
+        this.storage.set('userId', cedula) 
+        this.storage.set('email', email) 
+
+      })
+
+      
+      
       
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -57,7 +68,8 @@ export class MyApp {
 
     let opt = {}
     
-    this.storage.get('userId').then(value=>{
+    this.api.verifyUser().then((userInfo : any)=>{
+      let value = userInfo["CEDULA"]
       console.log(value)
    
       if (page.title === "Cartera de Tarjetas"){

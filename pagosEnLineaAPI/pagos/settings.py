@@ -15,7 +15,7 @@ import os
 """
 SUPERUSER CREDENCIALS
 USER: user
-PASSWORD: user
+PASSWORD: user1234
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -31,7 +31,9 @@ SECRET_KEY = 'g=$5^fm+#)qs=#q__6lv8z@efqqrqh3__9*4l=r=u2x_#jc==w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*'
+]
 
 
 # Application definition

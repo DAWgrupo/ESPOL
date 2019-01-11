@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CheckoutPage } from '../checkout/checkout';
+import { ApiServiceProvider } from '../../providers/api-service/api-service';
 
 /**
  * Generated class for the SeleccionMetodoPagoPage page.
@@ -17,7 +18,7 @@ import { CheckoutPage } from '../checkout/checkout';
 export class SeleccionMetodoPagoPage {
   selectedItems: any;
   //c: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}> = [];
-  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}> = [];
+  cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String, card_token: String}> = [];
   response: any = 
   {
     "cards": [
@@ -58,31 +59,21 @@ export class SeleccionMetodoPagoPage {
     "result_size": 3
 };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private api: ApiServiceProvider) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItems = navParams.get('cards');
 
     // Let's populate this page with some filler content for funzies
-    this.getCards();
+    this.getCards('900909009111');
     
 
   
   }
-  getCards(){
-    for (let card of this.response.cards) {
-      let expiry_month : String;
-      if (Number(card.expiry_month) < 10 ){
-        expiry_month = "0" + card.expiry_month;
-      }
-      let tmp_card = {
-        "number" : card.bin.slice( 1, 5) + " XXXX XXXX " + card.number,
-        "holder_name" : card.holder_name,
-        "expiry_year" : card.expiry_year.slice(2,5).toString(),
-        "expiry_month": expiry_month,
-        "icon": "../../assets/imgs/"+  card.type.toString()+".png"
-      };
-      this.cards.push(tmp_card)
-    }
+  getCards(value){
+    this.api.getAllCards(value).then((data:any) => {
+     this.cards = data;
+    })
     console.log(this.selectedItems);
     //console.log(this.cards);
     console.log(this.cards.filter( ( el ) =>  this.selectedItems.indexOf( el ) < 0));
