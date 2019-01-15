@@ -157,6 +157,6 @@ pagosEnLineaApi/*.pot
 pagosEnLineaApi/*.pyc
 pagosEnLineaApi/__pycache__/
 pagosEnLineaApi/local_settings.py
-
+migrations/
 .env
 pagosEnLineaApi/db.sqlite3

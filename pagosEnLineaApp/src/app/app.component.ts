@@ -1,13 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, LoadingController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
-import {SeleccionMetodoPagoPage} from '../pages/seleccion-metodo-pago/seleccion-metodo-pago';
 import { CarritoPage } from '../pages/carrito/carrito';
 import { CheckoutPage } from '../pages/checkout/checkout';
 import {CarteraTarjetasPage} from '../pages/cartera-tarjetas/cartera-tarjetas';
 import { HistorialPage } from '../pages/historial/historial'
+import { ApiServiceProvider } from '../providers/api-service/api-service';
+import { Storage } from '@ionic/storage';
+
 
 
 
@@ -21,7 +23,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public loadingCtrl: LoadingController, public api: ApiServiceProvider, public storage: Storage) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -38,16 +40,54 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
+
+      //mock de cookie para la info del usuario loggeado
+      let token='alskmalskdmalskdmasldkmlkm12l3m12lk3m1l3k1mldkmsla'
+      this.storage.set('userToken', token)
+
+
+      this.api.verifyUser().then((data : any)=>{
+        let cedula = data["CEDULA"] 
+        let email = data["CORREO"]
+        this.storage.set('userId', cedula) 
+        this.storage.set('email', email) 
+
+      })
+
+      
+      
+      
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
-
+  /**
+   * Redirige al usuario a una de los modulos principales
+   * @param page la pagina que representa uno de los modulos principales
+   */
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+
+    let opt = {}
+    
+    this.api.verifyUser().then((userInfo : any)=>{
+      let value = userInfo["CEDULA"]
+      console.log(value)
+   
+      if (page.title === "Cartera de Tarjetas"){
+
+        this.api.getAllCards(value).then((data) => {
+          opt =  {
+            cards: data
+          }
+          this.nav.setRoot(page.component, opt);
+        })
+      }else{
+        this.nav.setRoot(page.component, opt);
+      }
+
+  })
   }
+
 }
