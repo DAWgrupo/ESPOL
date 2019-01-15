@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { Nav, IonicPage, NavController, NavParams,InfiniteScroll  } from 'ionic-angular';
 import { ApiServiceProvider } from '../../providers/api-service/api-service';
 import { ViewChild } from '@angular/core';
-import { ValoresPage  } from '../valores/valores'
+import { ValoresPage  } from '../valores/valores';
+
+
 
 import 'rxjs/add/operator/map';
 
@@ -83,7 +85,8 @@ async removeCantidad(event, producto) {
 }
 
   async eliminarProducto(event, productoId) {
-    await this.carritoProvider.deleteProducto(productoId);  
+    await this.carritoProvider.deleteProducto(productoId); 
+    this.getProductos(); 
   }
 
   getCarritos() {
