@@ -10,7 +10,8 @@ from rest_framework.parsers import JSONParser
 from rest_framework import generics
 from aplicacion.models import producto, carrito, venta, usuario, tarjeta
 from aplicacion.serializers import ProductoSerializer, CarritoSerializer, VentaSerializer, UsuarioSerializer, TarjetaSerializer
-
+from django.views.decorators.csrf import csrf_exempt
+import json
 """
 class JSONResponse(HttpResponse):
    
@@ -73,7 +74,6 @@ def getAllCards(request):
     token = request.GET.get('TOKEN', None)
     user = usuario.verifyUser(token)
     if user["STATUS"]== "OK" :
-        print(usuario.findUser(user)[0].get_all_cards() )
         return  JsonResponse(usuario.findUser(user)[0].get_all_cards() ) 
     else:
         return  JsonResponse({'respuesta': 'Usuario no autorizado'}) 
@@ -93,6 +93,19 @@ def saveCard(request):
         )
     else:
         return  JsonResponse({'respuesta': 'Usuario no autorizado'}) 
+@csrf_exempt
+def deleteCard(request):
+    body =json.loads(request.read().decode('utf-8'))
+    token = body['TOKEN']
+    user = usuario.verifyUser(token)
+    return JsonResponse(usuario.findUser(user)[0].delete_card( body['card_token']))
+
+@csrf_exempt
+def pay(request):
+    body =json.loads(request.read().decode('utf-8'))
+    token = body['TOKEN']
+    user = usuario.verifyUser(token)
+    return JsonResponse(usuario.findUser(user)[0].pay( body['cards']))
 
 def verifyUser(request):
     token = request.GET.get('TOKEN', None)

@@ -52,15 +52,29 @@ class usuario(models.Model):
         response = requests.get('https://ccapi-stg.paymentez.com/v2/card/list?uid=' + str(self.cedula), 
                      headers={'Auth-Token': self.get_token()})
         return response.json()
+
+    def delete_card(self, card_token):
+        response = requests.post('https://ccapi-stg.paymentez.com/v2/card/delete/',json=
+        {
+             "user": {
+                 "id": str(self.cedula)
+             },
+             "card": {
+                 "token": str(card_token)
+             }
+        },headers={'Auth-Token': self.get_token()})
+        return response.json()
     
     # Devuelve un diccionario con la informacion del usuario loggeado
     @staticmethod
     def verifyUser(token):
         #token = 'alskmalskdmalskdmasldkmlkm12l3m12lk3m1l3k1mldkmsla'
         response = requests.get(Constantes.getVerPefilUrl(token))
-        print(Constantes.getVerPefilUrl(token))
-        print(response.json())
-        return response.json()
+        user = response.json()
+        # si el usuario no existe en la base local lo crea
+        if len(usuario.objects.filter(cedula=user["CEDULA"]).filter(correo=user["CORREO"])) == 0 :
+            usuario.objects.create(nombre=user["NOMBRES"], apellido=user["APELLIDOS"], correo=user["CORREO"], clave="1234", cedula =user["CEDULA"])
+        return user
 
     # Busca un usuario en la base de datos local y devuelve una referencia al objeto
     @staticmethod
@@ -68,7 +82,28 @@ class usuario(models.Model):
         response = usuario.objects.filter(cedula=userCedulaCorreo["CEDULA"]).filter(correo=userCedulaCorreo["CORREO"])
         return response
 
+    def pay(self, cards):
+        responses={}
+        for card in cards:
+            response = requests.post('https://ccapi-stg.paymentez.com/v2/transaction/debit/',json=
+            {
+                "user": {
+                    "id": str(self.cedula),
+                    "email": str(self.correo)
+                },
+                "card": {
+                    "token": str(card['card_token'])
+                },
+                "order": {
+                    "amount": card['value'],
+                    "description": "a simple pizza purchase",
+                    "dev_reference": "carrito reference",
+                    "vat": 0.00,
+                }
 
+            },headers={'Auth-Token': self.get_token()})
+            responses[str(card['card_token'])]= response.json()
+        return responses
 
         
 
