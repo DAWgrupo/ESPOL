@@ -13,6 +13,7 @@ import { ApiServiceProvider } from '../providers/api-service/api-service';
 import { HttpModule} from '@angular/http';
 import { ValoresPage } from '../pages/valores/valores'
 import { HistorialPage } from '../pages/historial/historial';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { HistorialPage } from '../pages/historial/historial';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ApiServiceProvider
+    ApiServiceProvider,
+    AuthServiceProvider
   ]
 })
 export class AppModule {}

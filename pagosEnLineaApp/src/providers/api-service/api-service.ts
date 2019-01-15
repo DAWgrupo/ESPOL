@@ -41,7 +41,7 @@ export class ApiServiceProvider {
 
   deleteProducto(idProducto): any {
     return this.http
-      .delete(`${this.API_URL}/api/producto/` + idProducto)
+      .delete(`${this.API_URL}/api/producto/` + idProducto +"/")
       .toPromise()
       .then(res => console.log(res.toString()))
       .catch(err => console.log(err));
