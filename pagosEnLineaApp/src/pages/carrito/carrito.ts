@@ -3,7 +3,7 @@ import { Nav, IonicPage, NavController, NavParams,InfiniteScroll  } from 'ionic-
 import { ApiServiceProvider } from '../../providers/api-service/api-service';
 import { ViewChild } from '@angular/core';
 import { ValoresPage  } from '../valores/valores';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+
 
 
 import 'rxjs/add/operator/map';
