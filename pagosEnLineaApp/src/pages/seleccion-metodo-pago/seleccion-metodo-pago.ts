@@ -18,6 +18,7 @@ import { ApiServiceProvider } from '../../providers/api-service/api-service';
 export class SeleccionMetodoPagoPage {
   selectedItems: any;
   //c: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String}> = [];
+  total_value: number;
   cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String, card_token: String}> = [];
   response: any = 
   {
@@ -63,6 +64,7 @@ export class SeleccionMetodoPagoPage {
     private api: ApiServiceProvider) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItems = navParams.get('cards');
+    this.total_value = navParams.get('total_value');
 
     // Let's populate this page with some filler content for funzies
     this.getCards('900909009111');
@@ -90,7 +92,8 @@ export class SeleccionMetodoPagoPage {
     if (!res){
       this.selectedItems.push(item)
       this.navCtrl.push(CheckoutPage, {
-        cards: this.selectedItems
+        cards: this.selectedItems,
+        total_value: this.total_value, 
       });
    }
     

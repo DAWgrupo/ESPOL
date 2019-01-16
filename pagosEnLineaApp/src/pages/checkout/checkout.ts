@@ -19,7 +19,7 @@ import { BrMaskerModule } from 'brmasker-ionic-3';
 export class CheckoutPage {
   
   selectedItems: Array<any>;
-  total_value : number = 10;
+  total_value : number = 0;
   pending_value : number = this.total_value;
   cards: Array< {holder_name: String, expiry_year: String, expiry_month: String, icon: String, number: String, card_token: String, value: number}> = [];
   enablePayment: boolean = false;
@@ -73,7 +73,7 @@ updatePendingValue(){
  * 
  */
 aniadirTarjeta() {
-  this.navCtrl.push(SeleccionMetodoPagoPage, { cards:this.cards
+  this.navCtrl.push(SeleccionMetodoPagoPage, { cards:this.cards, total_value: this.total_value
   });
 }
 
@@ -81,6 +81,7 @@ aniadirTarjeta() {
     
     // Obtiene tarjetas seleccionadas para el pago desde la vista padre (Seleccion de metodo de pago)
     this.selectedItems = navParams.get('cards');
+    this.total_value = navParams.get('total_value');
     if (this.selectedItems)
       this.cards=this.selectedItems;
   }
