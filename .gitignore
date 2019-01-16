@@ -34,7 +34,6 @@ pagosEnLineaApp/platforms/
 pagosEnLineaApp/plugins/
 pagosEnLineaApp/plugins/android.json
 pagosEnLineaApp/plugins/ios.json
-pagosEnLineaApp/www/
 pagosEnLineaApp/$RECYCLE.BIN/
 
 pagosEnLineaApp/.DS_Store

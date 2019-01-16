@@ -8,6 +8,7 @@ import {  LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Constantes } from '../../util/constantes'
 import 'rxjs/add/operator/timeout';
+
 /*
   Generated class for the ApiServiceProvider provider.
 
@@ -40,9 +41,19 @@ export class ApiServiceProvider {
     });
   }
 
+  setProducto(idProducto, producto): any {
+   
+    return this.http
+        .put(`${this.API_URL}/api/producto/` + idProducto + '/', producto)
+        .map(res => res.json())
+        .toPromise()
+        .then(res => console.log(res.toString()))
+        .catch(err => console.log(err));
+}
+
   deleteProducto(idProducto): any {
     return this.http
-      .delete(`${this.API_URL}/api/producto/` + idProducto)
+      .delete(`${this.API_URL}/api/producto/` + idProducto +"/")
       .toPromise()
       .then(res => console.log(res.toString()))
       .catch(err => console.log(err));
@@ -57,6 +68,28 @@ export class ApiServiceProvider {
       });
     });
   }
+
+
+  getCodigo(codigo): any {
+    return new Promise(resolve => {
+      this.http.get(this.API_URL+'/api/codigo/' + codigo ).subscribe(data => {
+        resolve(data.json());
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
+  setCodigo(Codigo): any {
+   
+    return this.http
+        .put(`${this.API_URL}/api/codigo/` + Codigo.codigo + '/', Codigo)
+        .map(res => res.json())
+        .toPromise()
+        .then(res => console.log(res.toString()))
+        .catch(err => console.log(err));
+}
+
 
   getAllCards(idU) {
 
@@ -193,7 +226,6 @@ export class ApiServiceProvider {
     });
 
   }
-  
 }
 
 

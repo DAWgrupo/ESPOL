@@ -1,0 +1,140 @@
+<!--
+  Generated template for the ValoresPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Detalles de Facturación</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+<ion-title>Detalles de Compra</ion-title>
+
+<ion-item *ngFor="let c of productos" >
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      Producto
+    </ion-col>
+    <ion-col>
+      {{ c.nombre }}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      Descripción
+    </ion-col>
+    <ion-col>
+      {{ c.descripcion }}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      Cantidad
+    </ion-col>
+    <ion-col>
+      {{ c.cantidad }}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      Precio
+    </ion-col>
+    <ion-col>
+      {{ c.precio/1.12 | currency }}
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-item>
+<br>
+<ion-title>Detalles de Pago</ion-title>
+<br>
+
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      Subtotal
+    </ion-col>
+    <ion-col>
+      {{ totalCarrito/1.12 | currency  }}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      IVA
+    </ion-col>
+    <ion-col>
+      {{ totalCarrito-totalCarrito/1.12 | currency  }}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      Envio
+    </ion-col>
+    <ion-col>
+      {{ 0 | currency  }}
+    </ion-col>
+  </ion-row>
+
+ 
+
+  <ion-row>
+    <ion-col>
+      Impuestos Pago
+    </ion-col>
+    <ion-col>
+      {{ 0 | currency  }}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      Cupón
+    </ion-col>
+    <ion-col>
+      <ion-input [(ngModel)]="code" name="code" id="code" placeholder="Code"></ion-input>
+      <br><button ion-button (click)="consultaCodigo($event, code);">Aplicar</button>
+    </ion-col>
+  </ion-row>
+
+    <ion-row>
+    <ion-col>
+      Descuento
+    </ion-col>
+    <ion-col>
+      {{ descuento | currency  }}
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-card id="carrito-card22">
+  <ion-list>
+    <h1 id="carrito-heading2" style="color:#000000;">
+
+      Total: {{ totalCarrito | currency  }}
+    </h1>
+    <button id="carrito-button6" ion-button color="positive" block>
+      Pagar
+    </button>
+  </ion-list>
+</ion-card>
+
+
+
+
+</ion-content>
