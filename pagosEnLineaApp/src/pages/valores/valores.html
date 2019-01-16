@@ -128,7 +128,7 @@
 
       Total: {{ totalCarrito | currency  }}
     </h1>
-    <button id="carrito-button6" ion-button color="positive" block>
+    <button id="carrito-button6" ion-button color="positive"  (tap)="checkout()" block>
       Pagar
     </button>
   </ion-list>

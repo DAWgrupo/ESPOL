@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,InfiniteScroll  } from 'ionic-angular';
 import { ApiServiceProvider } from '../../providers/api-service/api-service';
+import { CheckoutPage } from '../checkout/checkout';
 import { ViewChild } from '@angular/core';
 import 'rxjs/add/operator/map';
 
@@ -83,6 +84,12 @@ export class ValoresPage {
 
   }
 
+ /**
+   * Invoca al componente resumen de pago para realizar el pago
+   */
+  checkout() {
+    this.navCtrl.push(CheckoutPage, { total_value: this.totalCarrito });
+  }
   
 
 }
