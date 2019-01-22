@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Generación de facturas
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div padding>
+    <ion-item>
+      <ion-label color="primary" stacked>Cliente</ion-label>
+      <ion-input [(ngModel)]="nombrecliente" type="text" placeholder="Ingrese su nombre"></ion-input> 
+    </ion-item>
+
+    <!--<ion-item>
+        <ion-label color="primary" stacked>Body content</ion-label>
+        <ion-input [(ngModel)]="body" type="text" placeholder="contenido"></ion-input> 
+      </ion-item>-->
+
+    <ion-item>
+          <ion-label color="primary" stacked>correo</ion-label>
+          <ion-input [(ngModel)]="correo" type="text" placeholder="Ingresar correo"></ion-input> 
+        </ion-item>
+
+      <button ion-button block (click)="createPdf()" btn-xs>confirmar información</button>
+      <button ion-button block (click)="downloadPdf()">descargar factura</button>
+      <button ion-button block (click)="send()">enviar factura</button>
+  </div>
+</ion-content>
