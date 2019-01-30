@@ -82,6 +82,7 @@ aniadirTarjeta() {
     // Obtiene tarjetas seleccionadas para el pago desde la vista padre (Seleccion de metodo de pago)
     this.selectedItems = navParams.get('cards');
     this.total_value = navParams.get('total_value');
+    this.updatePendingValue();
     if (this.selectedItems)
       this.cards=this.selectedItems;
   }
