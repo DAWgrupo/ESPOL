@@ -20,34 +20,17 @@ Agregar plataformas
 
 > ionic cordova platform add ios
 
-## Dependencias del back-end
-Instalación de Python 3.7
-> https://www.python.org/downloads/
-
-Instalación de Django Rest Framwork
-> pip install django
-
-> pip install djangorestframework
-
-Instalación de PostgreSQL
-> https://www.postgresql.org/download/
-
+## Acerca del back-end
+Revisar Repositorio del API
+> https://github.com/PagosEnLinea/pagosEnLineaAPI
 
 ## Ejecución
-Ejecución del API
-> python manage.py makemigrations aplicacion
 
-> python manage.py migrate
-
-> python manage.py runserver
-
-Ejecución del APP
-
-#### Para debugging en el browser
+### Para debugging en el browser usando API local
 > cross-env ENV='local' ionic serve
 
 
 
-Ejecucion del APP en emulador
+### Ejecucion del APP en emulador usando API en la nube
 > ionic cordova emulate
 
